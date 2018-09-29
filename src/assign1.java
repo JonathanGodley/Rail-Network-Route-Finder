@@ -1,4 +1,5 @@
 // assign1.java
+// TODO - insert student numbers
 
 // import XML packages
 import org.w3c.dom.*;
@@ -8,14 +9,32 @@ import java.io.*;
 public class assign1
 {
 
+    // expected args - java assign1 "xml_file" "station 1" "station 2" criterion
     public static void main(String[] args)
     {
-        //TODO - add args verification (JG: I'll do this one, i've got it pre-written from another assignment pretty much)
+
+        if (args.length != 4) {
+            System.err.println("Usage: java assign1 <xml_file> <station 1> <station 2> <time|changes>");
+            System.exit(1);
+        }
+        else if (args[3].equals("time") || args[3].equals("changes"))
+        {
+            String mode = args[3];
+        }
+        else
+        {
+            System.err.println("Usage: java assign1 <xml_file> <station 1> <station 2> <time|changes>");
+            System.exit(1);
+        }
+
+
 	    //TODO - Grab filepath from args (JG: I'll do this one too)
-        loadStations("RailNetwork.xml");
+        Station[] Stations = loadStations("RailNetwork.xml");
+
+        System.exit(0);
     }
 
-    public static void loadStations(String path)
+    public static Station[] loadStations(String path)
     {
 
         try
@@ -35,6 +54,8 @@ public class assign1
             NodeList nList = doc.getElementsByTagName("Station");
             System.out.println("----------------------------");
 
+            Station[] Stations = new Station[nList.getLength()];
+
             for (int temp = 0; temp < nList.getLength(); temp++)
             {
                 Node nNode = nList.item(temp);
@@ -45,14 +66,19 @@ public class assign1
                 {
                     Element eElement = (Element) nNode;
                     //TODO - Add Formatting Verification, output the rest of the elements - including loops where necessary
+                    // TODO - on that note, these two are REQUIRED, station edges aren't necessary as long as formatting is kept.
                     System.out.println("Station Name: " + eElement.getElementsByTagName("Name").item(0).getTextContent());
+                    System.out.println("Line Name: " + eElement.getElementsByTagName("Line").item(0).getTextContent());
                 }
             }
+
+            return Stations;
 
         }
         catch (Exception e)
         {
             e.printStackTrace();
+            return null;
         }
 
     }
