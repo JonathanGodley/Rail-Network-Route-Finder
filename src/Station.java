@@ -1,7 +1,10 @@
+import java.util.LinkedList;
+
 public class Station{ 
  
     private String name; 
     private String line; 
+    LinkedList<Edge> edges = new LinkedList<>();
  
     //Overloaded constructor 
     public Station(String sname, String sline){ 
@@ -16,5 +19,9 @@ public class Station{
     public String get_line(){ 
         return this.line; 
     } 
+
+    public void add_edge(Edge edge){
+        edges.add(edge);
+    }
  
 }
