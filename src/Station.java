@@ -23,5 +23,17 @@ public class Station{
     public void add_edge(Edge edge){
         edges.add(edge);
     }
+
+    @Override public String toString()
+    {
+        String out = "Station: "+name+" on line: "+line+ "\n";
+
+        for (Edge var : edges)
+        {
+            out += "\t*"+var.toString()+"\n";
+        }
+
+        return out;
+    }
  
 }

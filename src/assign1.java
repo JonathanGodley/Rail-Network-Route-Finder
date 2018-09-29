@@ -29,6 +29,12 @@ public class assign1
 
         Station[] Stations = loadStations(args[0]);
 
+        //test it
+        for (Station var : Stations)
+        {
+            System.out.println(var.toString());
+        }
+
         System.exit(0);
     }
 

@@ -28,5 +28,11 @@ public class Edge{
     public int get_duration(){
         return this.duration;
     }
+
+    @Override public String toString()
+    {
+        return source+" to "+destination+" in "+duration+ " on line "+line;
+    }
+
  
 }
