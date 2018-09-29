@@ -24,6 +24,10 @@ public class Station{
         edges.add(edge);
     }
 
+    public LinkedList<Edge> get_edges(){
+        return this.edges;
+    }
+
     @Override public String toString()
     {
         String out = "Station: "+name+" on line: "+line+ "\n";
