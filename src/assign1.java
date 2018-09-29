@@ -27,9 +27,7 @@ public class assign1
             System.exit(1);
         }
 
-
-	    //TODO - Grab filepath from args (JG: I'll do this one too)
-        Station[] Stations = loadStations("RailNetwork.xml");
+        Station[] Stations = loadStations(args[0]);
 
         System.exit(0);
     }
@@ -49,10 +47,9 @@ public class assign1
             doc.getDocumentElement().normalize();
 
             //TODO - Make it check that the root element is Stations, otherwise Formatting Error
-            System.out.println("Root element: " + doc.getDocumentElement().getNodeName());
+            //System.out.println("Root element: " + doc.getDocumentElement().getNodeName());
 
             NodeList nList = doc.getElementsByTagName("Station");
-            System.out.println("----------------------------");
 
             Station[] Stations = new Station[nList.getLength()];
 
@@ -65,10 +62,28 @@ public class assign1
                 if (nNode.getNodeType() == Node.ELEMENT_NODE)
                 {
                     Element eElement = (Element) nNode;
+
                     //TODO - Add Formatting Verification, output the rest of the elements - including loops where necessary
                     // TODO - on that note, these two are REQUIRED, station edges aren't necessary as long as formatting is kept.
                     System.out.println("Station Name: " + eElement.getElementsByTagName("Name").item(0).getTextContent());
                     System.out.println("Line Name: " + eElement.getElementsByTagName("Line").item(0).getTextContent());
+
+                    NodeList tnList = eElement.getElementsByTagName("StationEdge");
+
+                    for (int x = 0; x < eElement.getElementsByTagName("StationEdge").getLength(); x++)
+                    {
+
+                        Node tNode = tnList.item(x);
+
+                        if (nNode.getNodeType() == Node.ELEMENT_NODE)
+                        {
+                            Element tElement = (Element) tNode;
+
+                            System.out.println("Destination: " + tElement.getElementsByTagName("Name").item(0).getTextContent());
+                            System.out.println("Line: " + tElement.getElementsByTagName("Line").item(0).getTextContent());
+                            System.out.println("Duration: " + tElement.getElementsByTagName("Duration").item(0).getTextContent());
+                        }
+                    }
                 }
             }
 
