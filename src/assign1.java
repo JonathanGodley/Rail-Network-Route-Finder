@@ -65,8 +65,9 @@ public class assign1
 
                     //TODO - Add Formatting Verification, output the rest of the elements - including loops where necessary
                     // TODO - on that note, these two are REQUIRED, station edges aren't necessary as long as formatting is kept.
-                    System.out.println("Station Name: " + eElement.getElementsByTagName("Name").item(0).getTextContent());
-                    System.out.println("Line Name: " + eElement.getElementsByTagName("Line").item(0).getTextContent());
+
+                    Stations[temp] = new Station(eElement.getElementsByTagName("Name").item(0).getTextContent(),
+                                                 eElement.getElementsByTagName("Line").item(0).getTextContent());
 
                     NodeList tnList = eElement.getElementsByTagName("StationEdge");
 
@@ -79,9 +80,10 @@ public class assign1
                         {
                             Element tElement = (Element) tNode;
 
-                            System.out.println("Destination: " + tElement.getElementsByTagName("Name").item(0).getTextContent());
-                            System.out.println("Line: " + tElement.getElementsByTagName("Line").item(0).getTextContent());
-                            System.out.println("Duration: " + tElement.getElementsByTagName("Duration").item(0).getTextContent());
+                            Stations[temp].add_edge(new Edge(Stations[temp].get_name(),
+                                                             tElement.getElementsByTagName("Line").item(0).getTextContent(),
+                                                             tElement.getElementsByTagName("Name").item(0).getTextContent(),
+                                                             Integer.parseInt(tElement.getElementsByTagName("Duration").item(0).getTextContent())));
                         }
                     }
                 }
