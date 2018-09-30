@@ -1,27 +1,21 @@
 public class Edge{ 
  
-    private String source; 
-    private String line;
-    private String destination; 
+    private Station source; 
+    private Station destination; 
     private int duration;
  
     //Overloaded constructor 
-    public Edge(String esource, String eline, String edestination, int eduration){ 
-        this.source = esource; 
-        this.line = eline; 
+    public Edge(Station esource, Station edestination, int eduration){ 
+        this.source = esource;
         this.destination = edestination;
         this.duration = eduration;
     } 
- 
-    public String get_source(){
-        return this.source;
-    } 
- 
-    public String get_line(){ 
-        return this.line; 
-    } 
 
-    public String get_destination(){
+    public Station get_source(){
+        return this.source;
+    }
+    
+    public Station get_destination(){
         return this.destination;
     }
     
@@ -31,7 +25,7 @@ public class Edge{
 
     @Override public String toString()
     {
-        return source+" to "+destination+" in "+duration+ " on line "+line;
+        return source+" to "+destination+" in "+duration;
     }
 
  

@@ -28,6 +28,8 @@ public class assign1
         }
 
         Station[] Stations = loadStations(args[0]);
+        //TODO build graph from given source station 1
+        Graph graph = new Graph (Stations, source);
 
         //test it
         for (Station var : Stations)
@@ -103,6 +105,11 @@ public class assign1
             e.printStackTrace();
             return null;
         }
+
+    }
+
+    //TODO build algorithm
+    public static void runAlgorithm (){
 
     }
 
