@@ -25,8 +25,10 @@ public class Graph {
         //TODO add station to graph arrays
         while(peek() != Null){
             Edge newEdge = edges.remove();
-            if(newEdge.get_destination() != station)
+            if(newEdge.get_destination() != station){
+                newEdge.get_destination().set_duration(newEdge.get_duration());
                 add_Edges(newEdge.get_destination())
+            }    
         }
             
     }
