@@ -22,9 +22,11 @@ public class Graph {
     //Recursive function to add edges to Graph
     public void add_Edges(Station station){
         edges = station.get_edges();
+        //TODO add station to graph arrays
         while(peek() != Null){
             Edge newEdge = edges.remove();
-            
+            if(newEdge.get_destination() != station)
+                add_Edges(newEdge.get_destination())
         }
             
     }

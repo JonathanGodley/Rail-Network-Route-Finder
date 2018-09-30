@@ -1,4 +1,4 @@
-public class Edge{ 
+public class Edge extends Station{ 
  
     private Station source; 
     private Station destination; 

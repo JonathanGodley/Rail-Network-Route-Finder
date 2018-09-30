@@ -4,14 +4,12 @@ public class Station{
  
     private String name; 
     private String line; 
-    private int durationFromParent;
     LinkedList<Edge> edges = new LinkedList<>();
  
     //Overloaded constructor 
     public Station(String sname, String sline){ 
         this.name = sname; 
         this.line = sline; 
-        this.durationFromParent = 0;
     } 
  
     public String get_name(){ 
@@ -21,10 +19,6 @@ public class Station{
     public String get_line(){ 
         return this.line; 
     } 
-
-    public void set_duration(int duration){
-        this.durationFromParent = duration;
-    }
 
     public int get_duration(){
         return this.durationFromParent;
