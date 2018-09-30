@@ -8,3 +8,4 @@ TODO:
                                                               working with XML and incorporate those into your program. Then, reading the data from the
                                                               xml file and navigating the data should amount to (reasonably) simple calls to the classes and
                                                               methods of the library in question.
+* Workout how to add edges in Graph. An indirect heap graph tends to only have verteices so unsure how to add the edge information.
