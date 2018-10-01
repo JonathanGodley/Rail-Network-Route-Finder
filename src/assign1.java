@@ -28,13 +28,14 @@ public class assign1
         }
 
         Station[] Stations = loadStations(args[0]);
-        //TODO build graph from given source station 1
-        Graph graph = new Graph (Stations, source);
+        
+        String source = args[1];
+        Graph graph = new Graph(Stations, source);
 
         //test it
         for (Station var : Stations)
         {
-            System.out.println(var.toString());
+            //System.out.println(var.toString());
         }
 
         System.exit(0);
@@ -88,7 +89,7 @@ public class assign1
                         {
                             Element tElement = (Element) tNode;
 
-                            Stations[temp].add_edge(new Edge(Stations[temp].get_name(),
+                            Stations[temp].add_edge(new Edge(Stations[temp],
                                                              tElement.getElementsByTagName("Line").item(0).getTextContent(),
                                                              tElement.getElementsByTagName("Name").item(0).getTextContent(),
                                                              Integer.parseInt(tElement.getElementsByTagName("Duration").item(0).getTextContent())));
@@ -114,3 +115,5 @@ public class assign1
     }
 
 }
+
+

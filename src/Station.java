@@ -12,7 +12,7 @@ public class Station{
         this.name = sname; 
         this.line = sline; 
         this.duration = 0;
-        this.edges = newLinkedList<>();
+        this.edges = new LinkedList<>();
     } 
  
     public String get_name(){ 
@@ -23,7 +23,7 @@ public class Station{
         return this.line; 
     } 
 
-    public void set_druation(int new_duration){
+    public void set_duration(int new_duration){
         this.duration = new_duration;
     }
 
@@ -43,12 +43,13 @@ public class Station{
     {
         String out = "Station: "+name+" on line: "+line+ "\n";
 
-        for (Edge var : edges)
-        {
-            out += "\t*"+var.toString()+"\n";
-        }
+        //for (Edge var : edges)
+        //{
+          //  out += "\t*"+var.toString()+"\n";
+        //}
 
         return out;
     }
+
  
 }
