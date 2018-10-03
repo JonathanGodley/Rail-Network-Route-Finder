@@ -1,21 +1,33 @@
 import java.util.LinkedList;
 
 public class Station{ 
- 
+
     private String name; 
-    private String line; 
+    private String line;
+    private int index;
     private int distance;
 
     //Overloaded constructor 
-    public Station(String sname, String sline, int newDistance){
+    public Station(String sname, String sline, int newDistance, int index){
         this.name = sname; 
         this.line = sline; 
         this.distance = newDistance;
+        this.index = index;
     }
  
     public String get_name(){ 
         return this.name; 
-    } 
+    }
+
+    public int getIndex()
+    {
+        return index;
+    }
+
+    public void setIndex(int index)
+    {
+        this.index = index;
+    }
  
     public String get_line(){ 
         return this.line; 

@@ -69,6 +69,8 @@ public class assign1
         System.out.println(source);
         System.out.println(destination);
 
+        graph.getShortestTime(source);
+
         System.exit(0);
     }
 
@@ -109,7 +111,7 @@ public class assign1
 
                     Stations[temp] = new Station(eElement.getElementsByTagName("Name").item(0).getTextContent(),
                                                  eElement.getElementsByTagName("Line").item(0).getTextContent(),
-                                                 Integer.MAX_VALUE);
+                                                 Integer.MAX_VALUE, temp);
 
                 }
             }

@@ -24,5 +24,9 @@ public class HeapNode
         this.distance = distance;
     }
 
+    public int getIndex()
+    {
+        return station.getIndex();
+    }
 
 }

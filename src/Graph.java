@@ -78,6 +78,84 @@ public class Graph {
 
     }
 
+    public void printDijkstra(HeapNode[] resultSet, int sourceVertex){
+        System.out.println("Dijkstra Algorithm: (Adjacency List + Min Heap)");
+        for (int i = 0; i < stations.length ; i++) {
+            System.out.println("Source Station: " + stations[sourceVertex].get_name() + " to station " +  stations[i].get_name() +
+                               " distance: " + resultSet[i].getDistance());
+        }
+    }
+
+    public void getShortestTime(int sourceStation)
+    {
+        // shortest path tree
+        boolean[] SPT = new boolean[stations.length];
+
+        // create heap nodes for vertices
+
+        HeapNode[] heapNodes = new HeapNode[stations.length];
+        for (int i = 0; i < stations.length; i++)
+        {
+            heapNodes[i] = new HeapNode();
+            heapNodes[i].setStation(stations[i]);
+            heapNodes[i].setDistance(Integer.MAX_VALUE); // aka infinity
+        }
+
+        //decrease the distance for the first index
+        heapNodes[sourceStation].setDistance(0);
+
+        //add all the vertices to the MinHeap
+        MinHeap minHeap = new MinHeap(stations.length);
+        for (int i = 0; i < stations.length ; i++) {
+            minHeap.insert(heapNodes[i]);
+        }
+
+
+        while(!minHeap.isEmpty())
+        {
+            //extract the min
+            HeapNode extractedNode = minHeap.extractMin();
+
+            //extracted vertex
+            int extractedStation = extractedNode.getIndex();
+            SPT[extractedStation] = true;
+
+            //iterate through all the adjacent vertices
+            LinkedList<Edge> list = adjacencylist[extractedStation];
+            for (int i = 0; i <list.size() ; i++) {
+                Edge edge = list.get(i);
+                int destination = edge.get_destination().getIndex();
+                //only if  destination vertex is not present in SPT
+                if(SPT[destination]==false ) {
+                    ///check if distance needs an update or not
+                    //means check total weight from source to vertex_V is less than
+                    //the current distance value, if yes then update the distance
+                    int newKey =  heapNodes[extractedStation].getDistance() + edge.get_duration() ;
+                    int currentKey = heapNodes[destination].getDistance();
+                    if(currentKey>newKey){
+                        decreaseKey(minHeap, newKey, destination);
+                        heapNodes[destination].setDistance(newKey);
+                    }
+                }
+            }
+        }
+
+        printDijkstra(heapNodes, sourceStation);
+
+    }
+
+    public void decreaseKey(MinHeap minHeap, int newKey, int vertex)
+    {
+
+        //get the index which distance's needs a decrease;
+        int index = minHeap.indexes[vertex];
+
+        //get the node and update its value
+        HeapNode node = minHeap.getMinHeap()[index];
+        node.setDistance(newKey);
+        minHeap.bubbleUp(index);
+    }
+
     @Override public String toString()
     {
         // count number of connections.
