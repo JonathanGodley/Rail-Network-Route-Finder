@@ -93,7 +93,7 @@ public class assign1
 
             Station[] Stations = new Station[nList.getLength()];
 
-
+            // create a list of the stations
             for (int temp = 0; temp < nList.getLength(); temp++)
             {
                 Node nNode = nList.item(temp);
@@ -111,23 +111,6 @@ public class assign1
                                                  eElement.getElementsByTagName("Line").item(0).getTextContent(),
                                                  Integer.MAX_VALUE);
 
-                    //NodeList tnList = eElement.getElementsByTagName("StationEdge");
-
-                   /* for (int x = 0; x < eElement.getElementsByTagName("StationEdge").getLength(); x++)
-                    {
-
-                        Node tNode = tnList.item(x);
-
-                        if (nNode.getNodeType() == Node.ELEMENT_NODE)
-                        {
-                            Element tElement = (Element) tNode;
-
-                            adjacencyList.add(new Edge(Stations[temp].get_name(),
-                                                            tElement.getElementsByTagName("Line").item(0).getTextContent(),
-                                                            tElement.getElementsByTagName("Name").item(0).getTextContent(),
-                                                            Integer.parseInt(tElement.getElementsByTagName("Duration").item(0).getTextContent())));
-                        }
-                    }*/
                 }
             }
 
@@ -135,6 +118,7 @@ public class assign1
 
             Graph graph = new Graph(Stations);
 
+            // second pass to get the edges //TODO make more efficient somehow?
             for (int temp = 0; temp < nList.getLength(); temp++)
             {
                 Node nNode = nList.item(temp);
