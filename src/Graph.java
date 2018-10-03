@@ -60,10 +60,22 @@ public class Graph {
             //edge = new Edge(stations[destinationStation], stations[sourceStation], line, duration);
             //adjacencylist[destinationStation].addFirst(edge);
         }
-        else
+    }
+
+    public int findIndex(String stationName)
+    {
+
+        for(int i = 0; i < stations.length; i++)
         {
-            System.out.println("uh oh");
+            if (stationName.equals(stations[i].get_name()))
+            {
+                return i;
+            }
         }
+
+        // haven't found
+        return -1;
+
     }
 
     @Override public String toString()

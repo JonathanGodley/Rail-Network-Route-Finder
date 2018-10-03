@@ -15,7 +15,7 @@ public class assign1
 
         if (args.length != 4)
         {
-            System.err.println("Usage: java assign1 <xml_file> <station 1> <station 2> <time|changes>");
+            System.err.println("Usage: java assign1 <xml_file> \"station 1\" \"station 2\" <time|changes>");
             System.exit(1);
         }
         else if (args[3].equals("time") || args[3].equals("changes"))
@@ -31,8 +31,43 @@ public class assign1
         // TODO once we're not editing everything, move the file-reading into the main function and delete the container class
         Graph graph = loadStations(args[0]);
 
+        // now we check that both of our stations exist in the graph, and find our source station index
+        int source = -1;
+        int destination = -1;
+
+        System.out.println(args[1]);
+        //System.out.println(graph.)
+
+        if ((source = graph.findIndex(args[1])) == -1)
+        {
+            System.err.println("Specified source does not exist");
+            System.exit(1);
+        }
+        else
+        {
+
+            if ((destination = graph.findIndex(args[2])) == -1)
+            {
+                System.err.println("Specified destination does not exist");
+                System.exit(1);
+            }
+        }
+
+        if (source == -1 || destination == -1)
+        {
+            System.err.println("Specified destination or source does not exist");
+            System.exit(1);
+        }
+
+
+
+
+
+
         // test it
         System.out.println(graph.toString());
+        System.out.println(source);
+        System.out.println(destination);
 
         System.exit(0);
     }
