@@ -13,7 +13,8 @@ public class assign1
     public static void main(String[] args)
     {
 
-        if (args.length != 4) {
+        if (args.length != 4)
+        {
             System.err.println("Usage: java assign1 <xml_file> <station 1> <station 2> <time|changes>");
             System.exit(1);
         }
@@ -27,20 +28,16 @@ public class assign1
             System.exit(1);
         }
 
-        Station[] Stations = loadStations(args[0]);
-        //TODO build graph from given source station 1
-        Graph graph = new Graph (Stations, source);
+        // TODO once we're not editing everything, move the file-reading into the main function and delete the container class
+        Graph graph = loadStations(args[0]);
 
-        //test it
-        for (Station var : Stations)
-        {
-            System.out.println(var.toString());
-        }
+        // test it
+        System.out.println(graph.toString());
 
         System.exit(0);
     }
 
-    public static Station[] loadStations(String path)
+    public static Graph loadStations(String path)
     {
 
         try
@@ -50,8 +47,8 @@ public class assign1
 
             // create a document builder
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(inputFile);
+            DocumentBuilder        builder = factory.newDocumentBuilder();
+            Document               doc     = builder.parse(inputFile);
             doc.getDocumentElement().normalize();
 
             //TODO - Make it check that the root element is Stations, otherwise Formatting Error
@@ -60,6 +57,7 @@ public class assign1
             NodeList nList = doc.getElementsByTagName("Station");
 
             Station[] Stations = new Station[nList.getLength()];
+
 
             for (int temp = 0; temp < nList.getLength(); temp++)
             {
@@ -75,7 +73,45 @@ public class assign1
                     // TODO - on that note, these two are REQUIRED, station edges aren't necessary as long as formatting is kept.
 
                     Stations[temp] = new Station(eElement.getElementsByTagName("Name").item(0).getTextContent(),
-                                                 eElement.getElementsByTagName("Line").item(0).getTextContent());
+                                                 eElement.getElementsByTagName("Line").item(0).getTextContent(),
+                                                 Integer.MAX_VALUE);
+
+                    //NodeList tnList = eElement.getElementsByTagName("StationEdge");
+
+                   /* for (int x = 0; x < eElement.getElementsByTagName("StationEdge").getLength(); x++)
+                    {
+
+                        Node tNode = tnList.item(x);
+
+                        if (nNode.getNodeType() == Node.ELEMENT_NODE)
+                        {
+                            Element tElement = (Element) tNode;
+
+                            adjacencyList.add(new Edge(Stations[temp].get_name(),
+                                                            tElement.getElementsByTagName("Line").item(0).getTextContent(),
+                                                            tElement.getElementsByTagName("Name").item(0).getTextContent(),
+                                                            Integer.parseInt(tElement.getElementsByTagName("Duration").item(0).getTextContent())));
+                        }
+                    }*/
+                }
+            }
+
+
+
+            Graph graph = new Graph(Stations);
+
+            for (int temp = 0; temp < nList.getLength(); temp++)
+            {
+                Node nNode = nList.item(temp);
+                // TODO - add verification that the current element is called Station, otherwise formatting error
+                //System.out.println("\nCurrent Element :" + nNode.getNodeName());
+
+                if (nNode.getNodeType() == Node.ELEMENT_NODE)
+                {
+                    Element eElement = (Element) nNode;
+
+                    //TODO - Add Formatting Verification, output the rest of the elements - including loops where necessary
+                    // TODO - on that note, these two are REQUIRED, station edges aren't necessary as long as formatting is kept.
 
                     NodeList tnList = eElement.getElementsByTagName("StationEdge");
 
@@ -88,29 +124,34 @@ public class assign1
                         {
                             Element tElement = (Element) tNode;
 
-                            Stations[temp].add_edge(new Edge(Stations[temp].get_name(),
-                                                             tElement.getElementsByTagName("Line").item(0).getTextContent(),
-                                                             tElement.getElementsByTagName("Name").item(0).getTextContent(),
-                                                             Integer.parseInt(tElement.getElementsByTagName("Duration").item(0).getTextContent())));
+                            graph.addEdge(Stations[temp].get_name(),
+                                                            tElement.getElementsByTagName("Line").item(0).getTextContent(),
+                                                            tElement.getElementsByTagName("Name").item(0).getTextContent(),
+                                                            Integer.parseInt(tElement.getElementsByTagName("Duration").item(0).getTextContent()));
                         }
                     }
                 }
             }
 
-            return Stations;
+            return graph;
+
 
         }
         catch (Exception e)
         {
             e.printStackTrace();
+            System.exit(1);
             return null;
         }
 
     }
 
-    //TODO build algorithm
-    public static void runAlgorithm (){
 
-    }
+
+    //TODO build algorithm
+    public static void runAlgorithm ()
+    {}
+
+
 
 }

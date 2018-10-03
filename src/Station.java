@@ -4,16 +4,14 @@ public class Station{
  
     private String name; 
     private String line; 
-    private int duration;
-    LinkedList<Edge> edges;
- 
+    private int distance;
+
     //Overloaded constructor 
-    public Station(String sname, String sline){ 
+    public Station(String sname, String sline, int newDistance){
         this.name = sname; 
         this.line = sline; 
-        this.duration = 0;
-        this.edges = new LinkedList<>();
-    } 
+        this.distance = newDistance;
+    }
  
     public String get_name(){ 
         return this.name; 
@@ -23,32 +21,19 @@ public class Station{
         return this.line; 
     } 
 
-    public void set_druation(int new_duration){
-        this.duration = new_duration;
+    public void set_distance(int newDistance){
+        this.distance = newDistance;
     }
 
-    public int get_duration(){
-        return this.duration;
-    }
-
-    public void add_edge(Edge edge){
-        edges.add(edge);
-    }
-
-    public LinkedList<Edge> get_edges(){
-        return this.edges;
+    public int get_distance(){
+        return this.distance;
     }
 
     @Override public String toString()
     {
-        String out = "Station: "+name+" on line: "+line+ "\n";
 
-        for (Edge var : edges)
-        {
-            out += "\t*"+var.toString()+"\n";
-        }
 
-        return out;
+        return "Station: "+name+" on line: "+line+ " current distance = "+distance;
     }
- 
+
 }

@@ -2,34 +2,67 @@ import java.util.LinkedList;
 
 public class Graph {
 
-    private int[] into;
-    private int[] outof;
-    private Station[] key;
-    private LinkedList<Edge> edges;
+    private Station[] stations;
+    private LinkedList<Edge>[] adjacencylist;
 
     //Overloaded Constructor
-    public void Graph(Station[] Stations, Station source){
-        into = new int[Stations.length];
-        outof = new int[Stations.length];
-        key = new Station[Stations.length];
+    public Graph(Station[] stations)
+    {
+        this.stations = stations;
+        adjacencylist = new LinkedList[stations.length];
 
-        for(int i = 0; i < Stations.length; i++){
-            if(Stations[i] == source)
-                add_Edges(Stations[i]); 
+        for(int i = 0; i < stations.length; i++)
+        {
+            adjacencylist[i] = new LinkedList<>();
         }
     }
 
-    //Recursive function to add edges to Graph
-    public void add_Edges(Station station){
-        edges = station.get_edges();
-        //TODO add station to graph arrays
-        while(edges.peek() != null){
-            Edge newEdge = edges.remove();
-            if(newEdge.get_destination() != station){
-                newEdge.get_destination().set_duration(newEdge.get_duration());
-                add_Edges(newEdge.get_destination())
-            }    
+    public void addEdge(String source, String destination, String line, int duration)
+    {
+        // need to find matching station,
+
+        int sourceStation = 0;
+        int destinationStation = 0;
+        int found = 0;
+
+
+        // loops through stations array, find index of source and destination stations
+        for(int i = 0; i < stations.length && found < 2; i++)
+        {
+            if (source.equals(stations[i].get_name()) && line.equals(stations[i].get_line()))
+            {
+                sourceStation = i;
+                found++;
+            }
+            else if (destination.equals(stations[i].get_name()) && line.equals(stations[i].get_line()))
+            {
+                destinationStation = i;
+                found++;
+            }
         }
-            
+
+        // if found both stations
+        if (found == 2)
+        {
+            // link edge to stations
+            Edge edge = new Edge(stations[sourceStation], stations[destinationStation], line, duration);
+            adjacencylist[sourceStation].addFirst(edge);
+
+            // not needed since input file already has an edge entry for each direction
+            //edge = new Edge(stations[destinationStation], stations[sourceStation], line, duration);
+            //adjacencylist[destinationStation].addFirst(edge);
+        }
+    }
+
+    @Override public String toString()
+    {
+        // count number of connections.
+        int length = 0;
+        for(int i = 0; i < adjacencylist.length; i++)
+        {
+            length += adjacencylist[i].size();
+        }
+
+        return stations.length+" stations, with "+length+" connections";
     }
 }
