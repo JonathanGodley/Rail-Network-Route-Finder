@@ -90,6 +90,9 @@ public class Graph {
 
     public void getShortestTime(int sourceStation, int destinationStation)
     {
+        //TODO - This is currently just a find all short paths algorithm, and i'm pretty sure i've fucked it up since theres a few weird bugs happening.
+        //TODO - the error is either in this file somewhere, or the MinHeap.java file. idk.
+
         // shortest path tree
         boolean[] SPT = new boolean[stations.length];
 
