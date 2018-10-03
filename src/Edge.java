@@ -1,4 +1,5 @@
-public class Edge extends Station{ 
+public class Edge //extends Station
+{
  
     private Station source; 
     private Station destination; 
@@ -35,7 +36,7 @@ public class Edge extends Station{
 
     @Override public String toString()
     {
-        return source+" to "+destination+" in "+duration+ =" on "+line;
+        return source+" to "+destination+" in "+duration+" = on "+line;
     }
 
  
