@@ -12,7 +12,7 @@ public class Station{
         this.name = sname; 
         this.line = sline; 
         this.duration = 0;
-        this.edges = newLinkedList<>();
+        this.edges = new LinkedList<>();
     } 
  
     public String get_name(){ 

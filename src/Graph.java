@@ -1,4 +1,4 @@
-import java.util.LInkedList;
+import java.util.LinkedList;
 
 public class Graph {
 
