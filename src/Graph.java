@@ -23,7 +23,7 @@ public class Graph {
     public void add_Edges(Station station){
         edges = station.get_edges();
         //TODO add station to graph arrays
-        while(peek() != Null){
+        while(edges.peek() != null){
             Edge newEdge = edges.remove();
             if(newEdge.get_destination() != station){
                 newEdge.get_destination().set_duration(newEdge.get_duration());

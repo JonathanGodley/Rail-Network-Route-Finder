@@ -28,6 +28,10 @@ public class Edge extends Station{
     public int get_duration(){
         return this.duration;
     }
+    public void set_duation(int newDuration)
+    {
+        this.duration = newDuration;
+    }
 
     @Override public String toString()
     {
