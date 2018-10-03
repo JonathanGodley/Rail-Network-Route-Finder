@@ -22,6 +22,11 @@ public class HeapNode
     public void setDistance(int distance)
     {
         this.distance = distance;
+
+        if (distance < 0)
+        {
+            System.out.println("error");
+        }
     }
 
     public int getIndex()

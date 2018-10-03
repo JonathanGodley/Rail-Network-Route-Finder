@@ -53,7 +53,7 @@ public class Graph {
         if (found == 2)
         {
             // link edge to stations
-            Edge edge = new Edge(stations[sourceStation], stations[destinationStation], line, duration);
+            Edge edge = new Edge(sourceStation, destinationStation, line, duration);
             adjacencylist[sourceStation].addFirst(edge);
 
             // not needed since input file already has an edge entry for each direction
@@ -73,7 +73,7 @@ public class Graph {
             }
         }
 
-        // haven't found
+       //haven't found
         return -1;
 
     }
@@ -81,12 +81,14 @@ public class Graph {
     public void printDijkstra(HeapNode[] resultSet, int sourceVertex){
         System.out.println("Dijkstra Algorithm: (Adjacency List + Min Heap)");
         for (int i = 0; i < stations.length ; i++) {
-            System.out.println("Source Station: " + stations[sourceVertex].get_name() + " to station " +  stations[i].get_name() +
-                               " distance: " + resultSet[i].getDistance());
+
+                System.out.println("Source Station: " + stations[sourceVertex].get_name() + " to station " +
+                                   stations[i].get_name() + " on line: "+stations[i].get_line()+" distance: " + resultSet[i].getDistance());
+
         }
     }
 
-    public void getShortestTime(int sourceStation)
+    public void getShortestTime(int sourceStation, int destinationStation)
     {
         // shortest path tree
         boolean[] SPT = new boolean[stations.length];
@@ -124,7 +126,7 @@ public class Graph {
             LinkedList<Edge> list = adjacencylist[extractedStation];
             for (int i = 0; i <list.size() ; i++) {
                 Edge edge = list.get(i);
-                int destination = edge.get_destination().getIndex();
+                int destination = edge.get_destination();
                 //only if  destination vertex is not present in SPT
                 if(SPT[destination]==false ) {
                     ///check if distance needs an update or not

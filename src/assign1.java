@@ -65,11 +65,8 @@ public class assign1
 
 
         // test it
-        System.out.println(graph.toString());
-        System.out.println(source);
-        System.out.println(destination);
 
-        graph.getShortestTime(source);
+        graph.getShortestTime(source,destination);
 
         System.exit(0);
     }
