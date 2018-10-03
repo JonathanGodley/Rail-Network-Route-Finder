@@ -17,10 +17,9 @@ public class Graph {
         }
     }
 
-    public void addEdge(String source, String destination, String line, int duration)
+    public void addEdge(String source, String line, String destination, int duration)
     {
         // need to find matching station,
-
         int sourceStation = 0;
         int destinationStation = 0;
         int found = 0;
@@ -29,6 +28,8 @@ public class Graph {
         // loops through stations array, find index of source and destination stations
         for(int i = 0; i < stations.length && found < 2; i++)
         {
+
+
             if (source.equals(stations[i].get_name()) && line.equals(stations[i].get_line()))
             {
                 sourceStation = i;
@@ -39,6 +40,13 @@ public class Graph {
                 destinationStation = i;
                 found++;
             }
+            else if (destination.equals(stations[i].get_name()) && source.equals(stations[i].get_name()))
+            {
+                destinationStation = i;
+                sourceStation = i;
+                found++;
+            }
+
         }
 
         // if found both stations
@@ -51,6 +59,10 @@ public class Graph {
             // not needed since input file already has an edge entry for each direction
             //edge = new Edge(stations[destinationStation], stations[sourceStation], line, duration);
             //adjacencylist[destinationStation].addFirst(edge);
+        }
+        else
+        {
+            System.out.println("uh oh");
         }
     }
 
