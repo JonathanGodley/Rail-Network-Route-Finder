@@ -13,8 +13,9 @@ public class assign1
     public static void main(String[] args)
     {
 
-        if (args.length != 4) {
-            System.err.println("Usage: java assign1 <xml_file> <station 1> <station 2> <time|changes>");
+        if (args.length != 4)
+        {
+            System.err.println("Usage: java assign1 <xml_file> \"station 1\" \"station 2\" <time|changes>");
             System.exit(1);
         }
         else if (args[3].equals("time") || args[3].equals("changes"))
@@ -27,21 +28,50 @@ public class assign1
             System.exit(1);
         }
 
-        Station[] Stations = loadStations(args[0]);
-        
-        String source = args[1];
-        Graph graph = new Graph(Stations, source);
+        // TODO once we're not editing everything, move the file-reading into the main function and delete the container class
+        Graph graph = loadStations(args[0]);
 
-        //test it
-        for (Station var : Stations)
+        // now we check that both of our stations exist in the graph, and find our source station index
+        int source = -1;
+        int destination = -1;
+
+        System.out.println(args[1]);
+        //System.out.println(graph.)
+
+        if ((source = graph.findIndex(args[1])) == -1)
         {
-            //System.out.println(var.toString());
+            System.err.println("Specified source does not exist");
+            System.exit(1);
         }
+        else
+        {
+
+            if ((destination = graph.findIndex(args[2])) == -1)
+            {
+                System.err.println("Specified destination does not exist");
+                System.exit(1);
+            }
+        }
+
+        if (source == -1 || destination == -1)
+        {
+            System.err.println("Specified destination or source does not exist");
+            System.exit(1);
+        }
+
+
+
+
+
+
+        // test it
+
+        graph.getShortestTime(source,destination);
 
         System.exit(0);
     }
 
-    public static Station[] loadStations(String path)
+    public static Graph loadStations(String path)
     {
 
         try
@@ -51,8 +81,8 @@ public class assign1
 
             // create a document builder
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(inputFile);
+            DocumentBuilder        builder = factory.newDocumentBuilder();
+            Document               doc     = builder.parse(inputFile);
             doc.getDocumentElement().normalize();
 
             //TODO - Make it check that the root element is Stations, otherwise Formatting Error
@@ -62,6 +92,7 @@ public class assign1
 
             Station[] Stations = new Station[nList.getLength()];
 
+            // create a list of the stations
             for (int temp = 0; temp < nList.getLength(); temp++)
             {
                 Node nNode = nList.item(temp);
@@ -76,7 +107,29 @@ public class assign1
                     // TODO - on that note, these two are REQUIRED, station edges aren't necessary as long as formatting is kept.
 
                     Stations[temp] = new Station(eElement.getElementsByTagName("Name").item(0).getTextContent(),
-                                                 eElement.getElementsByTagName("Line").item(0).getTextContent());
+                                                 eElement.getElementsByTagName("Line").item(0).getTextContent(),
+                                                 Integer.MAX_VALUE, temp);
+
+                }
+            }
+
+
+
+            Graph graph = new Graph(Stations);
+
+            // second pass to get the edges //TODO make more efficient somehow?
+            for (int temp = 0; temp < nList.getLength(); temp++)
+            {
+                Node nNode = nList.item(temp);
+                // TODO - add verification that the current element is called Station, otherwise formatting error
+                //System.out.println("\nCurrent Element :" + nNode.getNodeName());
+
+                if (nNode.getNodeType() == Node.ELEMENT_NODE)
+                {
+                    Element eElement = (Element) nNode;
+
+                    //TODO - Add Formatting Verification, output the rest of the elements - including loops where necessary
+                    // TODO - on that note, these two are REQUIRED, station edges aren't necessary as long as formatting is kept.
 
                     NodeList tnList = eElement.getElementsByTagName("StationEdge");
 
@@ -89,30 +142,35 @@ public class assign1
                         {
                             Element tElement = (Element) tNode;
 
-                            Stations[temp].add_edge(new Edge(Stations[temp],
-                                                             tElement.getElementsByTagName("Line").item(0).getTextContent(),
-                                                             tElement.getElementsByTagName("Name").item(0).getTextContent(),
-                                                             Integer.parseInt(tElement.getElementsByTagName("Duration").item(0).getTextContent())));
+                            graph.addEdge(Stations[temp].get_name(),
+                                                            tElement.getElementsByTagName("Line").item(0).getTextContent(),
+                                                            tElement.getElementsByTagName("Name").item(0).getTextContent(),
+                                                            Integer.parseInt(tElement.getElementsByTagName("Duration").item(0).getTextContent()));
                         }
                     }
                 }
             }
 
-            return Stations;
+            return graph;
+
 
         }
         catch (Exception e)
         {
             e.printStackTrace();
+            System.exit(1);
             return null;
         }
 
     }
 
-    //TODO build algorithm
-    public static void runAlgorithm (){
 
-    }
+
+    //TODO build algorithm
+    public static void runAlgorithm ()
+    {}
+
+
 
 }
 
