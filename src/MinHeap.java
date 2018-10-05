@@ -6,15 +6,19 @@ public class MinHeap
     private int currentSize;
     HeapNode[] minHeap;
     int[]      indexes;
+    private int i;
 
+
+    //is there a reason for having a null head node? start currentSize at -1
     public MinHeap(int capacity)
     {
         this.capacity = capacity;
         minHeap = new HeapNode[capacity + 1];
         indexes = new int[capacity];
-        minHeap[0] = new HeapNode();
-        minHeap[0].setDistance(Integer.MIN_VALUE);
-        minHeap[0].setStation(null);
+        minHeap[0] = new HeapNode(); //get rid of
+        minHeap[0].setDistance(Integer.MIN_VALUE); //get rid of
+        minHeap[0].setStation(null); //get rid of
+        i = 0;
         currentSize = 0;
     }
 
@@ -22,7 +26,7 @@ public class MinHeap
     {
 
         currentSize++;
-
+        //no need for int idx, just use currentSize
         int idx = currentSize;
         minHeap[idx] = newNode;
         indexes[newNode.getIndex()] = idx;
@@ -48,15 +52,16 @@ public class MinHeap
 
     public HeapNode extractMin() 
     {
-        HeapNode min = minHeap[1];
-        HeapNode lastNode = minHeap[currentSize];
+        //made this heaps simpler. still seems to work, also this way never have to siftdown, left your code incase there was method to your madness
+        HeapNode min = minHeap[i];
+        //HeapNode lastNode = minHeap[currentSize];
         //            update the indexes[] and move the last node to the top
-        indexes[lastNode.getIndex()] = 1;
-        minHeap[1] = lastNode;
-        minHeap[currentSize] = null;
-        sinkDown(1);
-        currentSize--;
-
+       // indexes[lastNode.getIndex()] = 1;
+        //minHeap[0] = lastNode;
+        //minHeap[currentSize] = null;
+        //sinkDown(i);
+        //currentSize--;
+        i++;
         return min;
     }
 

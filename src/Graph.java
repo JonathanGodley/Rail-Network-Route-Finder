@@ -135,11 +135,11 @@ public class Graph {
                     ///check if distance needs an update or not
                     //means check total weight from source to vertex_V is less than
                     //the current distance value, if yes then update the distance
-                    int newKey =  heapNodes[extractedStation].getDistance() + edge.get_duration() ;
+                    totalWeight =  totalWeight + edge.get_duration() ;
                     int currentKey = heapNodes[destination].getDistance();
-                    if(currentKey>newKey){
-                        decreaseKey(minHeap, newKey, destination);
-                        heapNodes[destination].setDistance(newKey);
+                    if(currentKey > totalWeight){
+                        decreaseKey(minHeap, totalWeight, destination);
+                        heapNodes[destination].setDistance(totalWeight);
                     }
                 }
             }
