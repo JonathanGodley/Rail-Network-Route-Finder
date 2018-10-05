@@ -115,7 +115,7 @@ public class Graph {
             minHeap.insert(heapNodes[i]);
         }
 
-
+        int totalWeight = 0;
         while(!minHeap.isEmpty())
         {
             //extract the min
