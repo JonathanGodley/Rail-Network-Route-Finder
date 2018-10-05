@@ -15,7 +15,6 @@ public class Graph {
         {
             adjacencylist[i] = new LinkedList<>();
         }
-        return null;
     }
 
     public void addEdge(String source, String line, String destination, int duration)

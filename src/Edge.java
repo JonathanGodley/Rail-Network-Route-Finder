@@ -7,7 +7,7 @@ public class Edge //extends Station
     private int duration;
  
     //Overloaded constructor 
-    public Edge(int esource, int edestination, String eline, int eduration){
+    public Edge(int esource, int edest, String eline, int eduration){
         this.source = esource;
         this.destination = edest;
         this.line = eline;
