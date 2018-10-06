@@ -1,7 +1,7 @@
 public class Edge //extends Station
 {
 
-    waoinfwaionfawoidnawiond
+   
     
     
     private int source;
