@@ -8,3 +8,23 @@
 src/DijkstraUsingMinHeap\.java
 
 *.docx
+
+nbproject/
+
+dist/
+
+build\.xml
+
+build/classes/\.netbeans_update_resources
+
+build/classes/\.netbeans_automatic_build
+
+manifest\.mf
+
+build/classes/comp2230/COMP2230 2018 Assignment\.pdf
+
+build/classes/comp2230/RailNetwork\.xml
+
+build/classes/comp2230/README\.md
+
+build/built-jar\.properties
