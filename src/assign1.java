@@ -122,10 +122,11 @@ public class assign1
             }
 
             Graph graph = new Graph(Stations);
-
+            int i = -1;
             // second pass to get the edges //TODO make more efficient somehow?
             for (int temp = 0; temp < nList.getLength(); temp++)
             {
+                i++;
                 Node nNode = nList.item(temp);
                 // TODO - add verification that the current element is called Station, otherwise formatting error
                 //System.out.println("\nCurrent Element :" + nNode.getNodeName());
@@ -138,22 +139,22 @@ public class assign1
                     // TODO - on that note, these two are REQUIRED, station edges aren't necessary as long as formatting is kept.
 
                     NodeList tnList = eElement.getElementsByTagName("StationEdge");
-
+                    
                     for (int x = 0; x < eElement.getElementsByTagName("StationEdge").getLength(); x++)
                     {
-
+                        
                         Node tNode = tnList.item(x);
 
                         if (nNode.getNodeType() == Node.ELEMENT_NODE)
                         {
                             Element tElement = (Element) tNode;
 
-                            graph.addEdge(Stations[temp].get_name(),
+                            graph.addEdge(i,
                                                             tElement.getElementsByTagName("Line").item(0).getTextContent(),
                                                             tElement.getElementsByTagName("Name").item(0).getTextContent(),
                                                             Integer.parseInt(tElement.getElementsByTagName("Duration").item(0).getTextContent()));
                         }
-                    }
+                    }                 
                 }
             }
 
