@@ -5,8 +5,6 @@
 
 *.class
 
-src/DijkstraUsingMinHeap\.java
-
 *.docx
 
 *.docx
