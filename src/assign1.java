@@ -1,3 +1,10 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package comp2230;
+
 // assign1.java
 // TODO - insert student numbers
 
@@ -114,9 +121,7 @@ public class assign1
                 }
             }
 
-
-            //here you are overriding the original graph, changed the name. Need to somehow join the 2 together?
-            Graph graph1 = new Graph(Stations);
+            Graph graph = new Graph(Stations);
 
             // second pass to get the edges //TODO make more efficient somehow?
             for (int temp = 0; temp < nList.getLength(); temp++)
@@ -143,7 +148,7 @@ public class assign1
                         {
                             Element tElement = (Element) tNode;
 
-                            graph1.addEdge(Stations[temp].get_name(),
+                            graph.addEdge(Stations[temp].get_name(),
                                                             tElement.getElementsByTagName("Line").item(0).getTextContent(),
                                                             tElement.getElementsByTagName("Name").item(0).getTextContent(),
                                                             Integer.parseInt(tElement.getElementsByTagName("Duration").item(0).getTextContent()));
@@ -152,7 +157,7 @@ public class assign1
                 }
             }
 
-            return graph1;
+            return graph;
 
 
         }

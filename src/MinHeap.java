@@ -1,36 +1,41 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package comp2230;
+
+/**
+ *
+ * @author marz
+ */
 import java.util.Arrays;
 
 public class MinHeap
 {
     private int capacity;
     private int currentSize;
-    HeapNode[] minHeap;
+    private HeapNode[] minHeap;
     int[]      indexes;
     private int i;
 
-
-    //is there a reason for having a null head node? start currentSize at -1
     public MinHeap(int capacity)
     {
         this.capacity = capacity;
-        minHeap = new HeapNode[capacity + 1];
+        minHeap = new HeapNode[capacity];
         indexes = new int[capacity];
-        minHeap[0] = new HeapNode(); //get rid of
-        minHeap[0].setDistance(Integer.MIN_VALUE); //get rid of
-        minHeap[0].setStation(null); //get rid of
+        currentSize = -1;
         i = 0;
-        currentSize = 0;
     }
 
     public void insert(HeapNode newNode)
     {
 
         currentSize++;
-        //no need for int idx, just use currentSize
-        int idx = currentSize;
-        minHeap[idx] = newNode;
-        indexes[newNode.getIndex()] = idx;
-        bubbleUp(idx);
+        
+        minHeap[currentSize] = newNode;
+        indexes[newNode.getIndex()] = currentSize;
+        bubbleUp(currentSize);
 
     }
 
@@ -52,7 +57,7 @@ public class MinHeap
 
     public HeapNode extractMin() 
     {
-        //made this heaps simpler. still seems to work, also this way never have to siftdown, left your code incase there was method to your madness
+        //made this heaps simpler. still seems to work, also this way never have to siftdown
         HeapNode min = minHeap[i];
         //HeapNode lastNode = minHeap[currentSize];
         //            update the indexes[] and move the last node to the top
@@ -105,7 +110,7 @@ public class MinHeap
 
     public boolean isEmpty()
     {
-        return currentSize == 0;
+       return i == capacity;
     }
 
     public int size()
