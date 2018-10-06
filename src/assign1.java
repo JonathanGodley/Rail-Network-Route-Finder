@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package comp2230;
+
 
 // assign1.java
 // TODO - insert student numbers
