@@ -1,3 +1,11 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+
 // assign1.java
 // TODO - insert student numbers
 
@@ -36,7 +44,6 @@ public class assign1
         int destination = -1;
 
         System.out.println(args[1]);
-        //System.out.println(graph.)
 
         if ((source = graph.findIndex(args[1])) == -1)
         {
@@ -62,12 +69,9 @@ public class assign1
 
 
 
-
-
-
         // test it
 
-        graph.getShortestTime(source,destination);
+        graph.getShortestTime(source);
 
         System.exit(0);
     }
@@ -109,14 +113,12 @@ public class assign1
 
                     Stations[temp] = new Station(eElement.getElementsByTagName("Name").item(0).getTextContent(),
                                                  eElement.getElementsByTagName("Line").item(0).getTextContent(),
-                                                 Integer.MAX_VALUE, temp);
+                                                 temp);
 
                 }
             }
 
-
-            //here you are overriding the original graph, changed the name. Need to somehow join the 2 together?
-            Graph graph1 = new Graph(Stations);
+            Graph graph = new Graph(Stations);
 
             // second pass to get the edges //TODO make more efficient somehow?
             for (int temp = 0; temp < nList.getLength(); temp++)
@@ -143,17 +145,32 @@ public class assign1
                         {
                             Element tElement = (Element) tNode;
 
-                            graph1.addEdge(Stations[temp].get_name(),
-                                                            tElement.getElementsByTagName("Line").item(0).getTextContent(),
-                                                            tElement.getElementsByTagName("Name").item(0).getTextContent(),
-                                                            Integer.parseInt(tElement.getElementsByTagName("Duration").item(0).getTextContent()));
+                            String destination = tElement.getElementsByTagName("Name").item(0).getTextContent();
+                            int destinationStation = -1;
+                            String line = tElement.getElementsByTagName("Line").item(0).getTextContent();
+
+                            for (int found = 0, i = 0; i < nList.getLength() && found < 1; i++)
+                            {
+
+
+                                if (destination.equals(Stations[i].get_name()) && line.equals(Stations[i].get_line()))
+                                {
+                                    destinationStation = i;
+                                    found++;
+                                }
+
+                            }
+
+                            graph.addEdge(temp,
+                                          destinationStation,
+                                          Integer.parseInt(
+                                                  tElement.getElementsByTagName("Duration").item(0).getTextContent()));
                         }
                     }
                 }
             }
 
-            return graph1;
-
+            return graph;
 
         }
         catch (Exception e)
@@ -164,15 +181,7 @@ public class assign1
         }
 
     }
-
-
-
-    //TODO build algorithm
-    public static void runAlgorithm ()
-    {}
-
-
-
 }
+
 
 
