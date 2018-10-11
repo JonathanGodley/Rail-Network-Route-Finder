@@ -12,13 +12,12 @@ public class Station{
     private String name; 
     private String line;
     private int index;
-    private int distance;
+
 
     //Overloaded constructor 
-    public Station(String sname, String sline, int newDistance, int index){
+    public Station(String sname, String sline, int index){
         this.name = sname; 
-        this.line = sline; 
-        this.distance = newDistance;
+        this.line = sline;
         this.index = index;
     }
  
@@ -38,21 +37,13 @@ public class Station{
  
     public String get_line(){ 
         return this.line; 
-    } 
-
-    public void set_distance(int newDistance){
-        this.distance = newDistance;
-    }
-
-    public int get_distance(){
-        return this.distance;
     }
 
     @Override public String toString()
     {
 
 
-        return "Station: "+name+" on line: "+line+ " current distance = "+distance;
+        return "Station: "+name+" on line: "+line+" with index: "+index;
     }
 
 }
