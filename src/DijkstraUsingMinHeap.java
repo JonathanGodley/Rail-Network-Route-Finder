@@ -270,7 +270,7 @@ public class DijkstraUsingMinHeap {
 
                     Stations[temp] = new Station(eElement.getElementsByTagName("Name").item(0).getTextContent(),
                                                  eElement.getElementsByTagName("Line").item(0).getTextContent(),
-                                                 Integer.MAX_VALUE, temp);
+                                                 temp);
 
                 }
             }
