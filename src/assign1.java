@@ -5,6 +5,7 @@
  */
 
 
+
 // assign1.java
 // TODO - insert student numbers
 
@@ -43,7 +44,6 @@ public class assign1
         int destination = -1;
 
         System.out.println(args[1]);
-        //System.out.println(graph.)
 
         if ((source = graph.findIndex(args[1])) == -1)
         {
@@ -69,12 +69,9 @@ public class assign1
 
 
 
-
-
-
         // test it
 
-        graph.getShortestTime(source,destination);
+        graph.getShortestTime(source);
 
         System.exit(0);
     }
@@ -122,11 +119,10 @@ public class assign1
             }
 
             Graph graph = new Graph(Stations);
-            int i = -1;
+
             // second pass to get the edges //TODO make more efficient somehow?
             for (int temp = 0; temp < nList.getLength(); temp++)
             {
-                i++;
                 Node nNode = nList.item(temp);
                 // TODO - add verification that the current element is called Station, otherwise formatting error
                 //System.out.println("\nCurrent Element :" + nNode.getNodeName());
@@ -139,27 +135,42 @@ public class assign1
                     // TODO - on that note, these two are REQUIRED, station edges aren't necessary as long as formatting is kept.
 
                     NodeList tnList = eElement.getElementsByTagName("StationEdge");
-                    
+
                     for (int x = 0; x < eElement.getElementsByTagName("StationEdge").getLength(); x++)
                     {
-                        
+
                         Node tNode = tnList.item(x);
 
                         if (nNode.getNodeType() == Node.ELEMENT_NODE)
                         {
                             Element tElement = (Element) tNode;
 
-                            graph.addEdge(i,
-                                                            tElement.getElementsByTagName("Line").item(0).getTextContent(),
-                                                            tElement.getElementsByTagName("Name").item(0).getTextContent(),
-                                                            Integer.parseInt(tElement.getElementsByTagName("Duration").item(0).getTextContent()));
+                            String destination = tElement.getElementsByTagName("Name").item(0).getTextContent();
+                            int destinationStation = -1;
+                            String line = tElement.getElementsByTagName("Line").item(0).getTextContent();
+
+                            for (int found = 0, i = 0; i < nList.getLength() && found < 1; i++)
+                            {
+
+
+                                if (destination.equals(Stations[i].get_name()) && line.equals(Stations[i].get_line()))
+                                {
+                                    destinationStation = i;
+                                    found++;
+                                }
+
+                            }
+
+                            graph.addEdge(temp,
+                                          destinationStation,
+                                          Integer.parseInt(
+                                                  tElement.getElementsByTagName("Duration").item(0).getTextContent()));
                         }
-                    }                 
+                    }
                 }
             }
 
             return graph;
-
 
         }
         catch (Exception e)
@@ -170,15 +181,7 @@ public class assign1
         }
 
     }
-
-
-
-    //TODO build algorithm
-    public static void runAlgorithm ()
-    {}
-
-
-
 }
+
 
 

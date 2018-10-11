@@ -11,17 +11,17 @@
  */
 public class HeapNode
 {
-    private Station station;
+    private int stationIndex;
     private int distance;
 
-    public Station getStation()
+    public int getStationIndex()
     {
-        return station;
+        return stationIndex;
     }
 
-    public void setStation(Station station)
+    public void setStationIndex(int stationIndex)
     {
-        this.station = station;
+        this.stationIndex = stationIndex;
     }
 
     public int getDistance()
@@ -32,16 +32,6 @@ public class HeapNode
     public void setDistance(int distance)
     {
         this.distance = distance;
-
-        if (distance < 0)
-        {
-            System.out.println("error " + distance);
-        }
-    }
-
-    public int getIndex()
-    {
-        return station.getIndex();
     }
 
 }

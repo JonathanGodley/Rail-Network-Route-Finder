@@ -23,38 +23,10 @@ public class Graph {
         }
     }
 
-    public void addEdge(int source, String line, String destination, int duration)
+    public void addEdge(int source, int destination, int duration)
     {
-        // need to find matching station,
-        int sourceStation = source;
-        int destinationStation = 0;
-        int found = 0;
-
-
-        // loops through stations array, find index of source and destination stations
-        for(int i = 0; i < stations.length && found < 1; i++)
-        {
- 
-            
-            if (destination.equals(stations[i].get_name()) && line.equals(stations[i].get_line()))
-            {
-                destinationStation = i;
-                found++;
-            }
-            
-        }
-
-        // if found both stations
-        if (found == 1)
-        {
-            // link edge to stations
-            Edge edge = new Edge(sourceStation, destinationStation, line, duration);
-            adjacencylist[sourceStation].addFirst(edge);
-            
-            // not needed since input file already has an edge entry for each direction
-            //edge = new Edge(destinationStation, sourceStation, line, duration);
-            //adjacencylist[destinationStation].addFirst(edge);
-        }
+        Edge edge = new Edge(source, destination, duration);
+        adjacencylist[source].addFirst(edge);
     }
 
     public int findIndex(String stationName)
@@ -74,7 +46,7 @@ public class Graph {
     }
 
     public void printDijkstra(HeapNode[] resultSet, int sourceVertex){
-        System.out.println("Dijkstra Algorithm: (Adjacency List + Min Heap)");
+       System.out.println("Dijkstra Algorithm: (Adjacency List + Min Heap)");
         for (int i = 0; i < stations.length ; i++) {
 
                 System.out.println("Source Station: " + stations[sourceVertex].get_name() + " to station " +
@@ -83,7 +55,7 @@ public class Graph {
         }
     }
 
-public void getShortestTime(int sourceStation, int destinationStation)
+public void getShortestTime(int sourceStation)
     {
         //TODO - This is currently just a find all short paths algorithm, and i'm pretty sure i've fucked it up since theres a few weird bugs happening.
         //TODO - the error is either in this file somewhere, or the MinHeap.java file. idk.
@@ -97,7 +69,7 @@ public void getShortestTime(int sourceStation, int destinationStation)
         for (int i = 0; i < stations.length; i++)
         {
             heapNodes[i] = new HeapNode();
-            heapNodes[i].setStation(stations[i]);
+            heapNodes[i].setStationIndex(i);
             heapNodes[i].setDistance(Integer.MAX_VALUE); // aka infinity
         }
 
@@ -110,18 +82,16 @@ public void getShortestTime(int sourceStation, int destinationStation)
             minHeap.insert(heapNodes[i]);
         }
 
-        int totalWeight = 0;
-        while(!minHeap.isEmpty())
-        {
+        while(!minHeap.isEmpty()){
             //extract the min
             HeapNode extractedNode = minHeap.extractMin();
 
             //extracted vertex
-            int extractedStation = extractedNode.getIndex();
-            SPT[extractedStation] = true;
+            int extractedVertex = extractedNode.getStationIndex();
+            SPT[extractedVertex] = true;
 
             //iterate through all the adjacent vertices
-            LinkedList<Edge> list = adjacencylist[extractedStation];
+            LinkedList<Edge> list = adjacencylist[extractedVertex];
             for (int i = 0; i <list.size() ; i++) {
                 Edge edge = list.get(i);
                 int destination = edge.get_destination();
@@ -130,11 +100,11 @@ public void getShortestTime(int sourceStation, int destinationStation)
                     ///check if distance needs an update or not
                     //means check total weight from source to vertex_V is less than
                     //the current distance value, if yes then update the distance
-                    totalWeight =  totalWeight + edge.get_duration() ;
+                    int newKey =  heapNodes[extractedVertex].getDistance() + edge.get_duration() ;
                     int currentKey = heapNodes[destination].getDistance();
-                    if(currentKey > totalWeight){
-                        decreaseKey(minHeap, totalWeight, destination);
-                        heapNodes[destination].setDistance(totalWeight);
+                    if(currentKey>newKey){
+                        decreaseKey(minHeap, newKey, destination);
+                        heapNodes[destination].setDistance(newKey);
                     }
                 }
             }

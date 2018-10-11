@@ -16,26 +16,27 @@ public class MinHeap
     private int capacity;
     private int currentSize;
     private HeapNode[] minHeap;
-    int[]      indexes;
-    private int i;
+    int[] indexes;
 
     public MinHeap(int capacity)
     {
         this.capacity = capacity;
-        minHeap = new HeapNode[capacity];
+        minHeap = new HeapNode[capacity + 1];
         indexes = new int[capacity];
-        currentSize = -1;
-        i = 0;
+        minHeap[0] = new HeapNode();
+        minHeap[0].setDistance(Integer.MIN_VALUE);
+        minHeap[0].setStationIndex(-1);
+        currentSize = 0;
     }
 
     public void insert(HeapNode newNode)
     {
 
         currentSize++;
-        
-        minHeap[currentSize] = newNode;
-        indexes[newNode.getIndex()] = currentSize;
-        bubbleUp(currentSize);
+        int idx = currentSize;
+        minHeap[idx] = newNode;
+        indexes[newNode.getStationIndex()] = idx;
+        bubbleUp(idx);
 
     }
 
@@ -47,8 +48,8 @@ public class MinHeap
             HeapNode parentNode = minHeap[parentIdx];
 
             //swap the positions
-            indexes[currentNode.getIndex()] = parentIdx;
-            indexes[parentNode.getIndex()] = currentIdx;
+            indexes[currentNode.getStationIndex()] = parentIdx;
+            indexes[parentNode.getStationIndex()] = currentIdx;
             swap(currentIdx,parentIdx);
             currentIdx = parentIdx;
             parentIdx = parentIdx/2;
@@ -57,16 +58,14 @@ public class MinHeap
 
     public HeapNode extractMin() 
     {
-        //made this heaps simpler. still seems to work, also this way never have to siftdown
-        HeapNode min = minHeap[i];
-        //HeapNode lastNode = minHeap[currentSize];
+        HeapNode min = minHeap[1];
+        HeapNode lastNode = minHeap[currentSize];
         //            update the indexes[] and move the last node to the top
-       // indexes[lastNode.getIndex()] = 1;
-        //minHeap[0] = lastNode;
-        //minHeap[currentSize] = null;
-        //sinkDown(i);
-        //currentSize--;
-        i++;
+        indexes[lastNode.getStationIndex()] = 1;
+        minHeap[1] = lastNode;
+        minHeap[currentSize] = null;
+        sinkDown(1);
+        currentSize--;
         return min;
     }
 
@@ -86,8 +85,8 @@ public class MinHeap
             HeapNode kNode = minHeap[k];
 
             //swap the positions
-            indexes[smallestNode.getIndex()] = k;
-            indexes[kNode.getIndex()] = smallest;
+            indexes[smallestNode.getStationIndex()] = k;
+            indexes[kNode.getStationIndex()] = smallest;
             swap(k, smallest);
             sinkDown(smallest);
         }
@@ -110,7 +109,7 @@ public class MinHeap
 
     public boolean isEmpty()
     {
-       return i == capacity;
+        return currentSize == 0;
     }
 
     public int size()
