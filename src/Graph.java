@@ -55,11 +55,6 @@ public class Graph {
 
         }
     }
-    
-    public void newPrint(HeapNode[] resultSet, int sourceVertex, int destVertex){
-        System.out.println("Source Station: " + stations[sourceVertex].get_name() + " to station " +
-                                   stations[destVertex].get_name() + " on line: "+stations[destVertex].get_line()+" distance: " + resultSet[destVertex].getDistance());
-    }
 
 public void getShortestTime(int sourceStation, int dest)
     {
@@ -78,13 +73,17 @@ public void getShortestTime(int sourceStation, int dest)
 
         //decrease the distance for the first index
         heapNodes[sourceStation].setDistance(0);
+        
+        //parent array to store the shortest path tree
+        int[] parents = new int[stations.length];
+        parents[0] = -1;
 
         //add all the vertices to the MinHeap
         MinHeap minHeap = new MinHeap(stations.length);
         for (int i = 0; i < stations.length ; i++) {
             minHeap.insert(heapNodes[i]);
         }
-
+        int j = 1;
         while(!minHeap.isEmpty()){
             //extract the min
             HeapNode extractedNode = minHeap.extractMin();
@@ -106,11 +105,15 @@ public void getShortestTime(int sourceStation, int dest)
                     int newKey =  heapNodes[extractedVertex].getDistance() + edge.get_duration() ;
                     int currentKey = heapNodes[destination].getDistance();
                     if(currentKey>newKey){
+                        parents[j] = extractedVertex;
+                        
                         decreaseKey(minHeap, newKey, destination);
                         heapNodes[destination].setDistance(newKey);
                     }
+                   
                 }
-            }
+            } j++;
+            
         }
         //Finds all stations corresponding to the destination station
         //Returns the one that has the shortest distance
@@ -125,9 +128,30 @@ public void getShortestTime(int sourceStation, int dest)
             }            
         }
         //printDijkstra(heapNodes, sourceStation);
-        newPrint(heapNodes, sourceStation, dest);
-
+        String line = stations[sourceStation].get_line();
+        System.out.print("From " +stations[sourceStation].get_name()+ ", take line " +stations[sourceStation].get_line()+ " to station ");
+        printPath(dest, parents, line);
+        System.out.print(stations[dest].get_name()+ ". The total trip will take approximately " +dist+ " minutes and will have m changes.");
     }
+
+// Function to print shortest path 
+    // from source to currentVertex 
+    // using parents array 
+    private void printPath(int currentVertex, 
+                                  int[] parents, String line) 
+    {       
+        // Base case : Source node has 
+        // been processed 
+        if (currentVertex == -1) 
+        { 
+            return; 
+        } 
+        if(!line.equals(stations[currentVertex].get_line())){
+            System.out.print(stations[currentVertex].get_name()+ ";\n then change to line " +stations[currentVertex].get_line()+ ", and continue to "); 
+            line = stations[currentVertex].get_line();
+        }
+        printPath(parents[currentVertex], parents, line); 
+    } 
 
     public void decreaseKey(MinHeap minHeap, int newKey, int vertex)
     {
