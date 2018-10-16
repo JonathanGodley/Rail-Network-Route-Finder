@@ -47,6 +47,7 @@ public class Graph {
 
     public void printDijkstra(HeapNode[] resultSet, int sourceVertex){
        System.out.println("Dijkstra Algorithm: (Adjacency List + Min Heap)");
+       
         for (int i = 0; i < stations.length ; i++) {
 
                 System.out.println("Source Station: " + stations[sourceVertex].get_name() + " to station " +
@@ -54,12 +55,14 @@ public class Graph {
 
         }
     }
+    
+    public void newPrint(HeapNode[] resultSet, int sourceVertex, int destVertex){
+        System.out.println("Source Station: " + stations[sourceVertex].get_name() + " to station " +
+                                   stations[destVertex].get_name() + " on line: "+stations[destVertex].get_line()+" distance: " + resultSet[destVertex].getDistance());
+    }
 
-public void getShortestTime(int sourceStation)
+public void getShortestTime(int sourceStation, int dest)
     {
-        //TODO - This is currently just a find all short paths algorithm, and i'm pretty sure i've fucked it up since theres a few weird bugs happening.
-        //TODO - the error is either in this file somewhere, or the MinHeap.java file. idk.
-
         // shortest path tree
         boolean[] SPT = new boolean[stations.length];
 
@@ -109,8 +112,20 @@ public void getShortestTime(int sourceStation)
                 }
             }
         }
-
-        printDijkstra(heapNodes, sourceStation);
+        //Finds all stations corresponding to the destination station
+        //Returns the one that has the shortest distance
+        String destName = stations[dest].get_name();
+        int dist = Integer.MAX_VALUE;
+        for (int i = 0; i < stations.length ; i++){
+            if(stations[i].get_name().equals(destName)){
+                if(heapNodes[i].getDistance() <= dist){
+                    dist = heapNodes[i].getDistance();
+                    dest = i;
+                }               
+            }            
+        }
+        //printDijkstra(heapNodes, sourceStation);
+        newPrint(heapNodes, sourceStation, dest);
 
     }
 

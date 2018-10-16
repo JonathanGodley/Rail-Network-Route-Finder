@@ -71,7 +71,7 @@ public class assign1
 
         // test it
 
-        graph.getShortestTime(source);
+        graph.getShortestTime(source, destination);
 
         System.exit(0);
     }
