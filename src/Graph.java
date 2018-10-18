@@ -64,6 +64,7 @@ public class Graph {
     {
 
         int distance = resultSet[destinationStation].getDistance();
+        int changes = 0;
         String input = (returnPath(destinationStation, parents));
 
 
@@ -122,6 +123,7 @@ public class Graph {
                     if (i != intArray.length)
                     {
                         System.out.print("\nthen change to line "+currentLine+", and continue to ");
+                        changes++;
                     }
                     else if (i == intArray.length-1)
                     {
@@ -140,7 +142,7 @@ public class Graph {
             System.out.print(stations[intArray[0]].get_name()+";");
         }
 
-        System.out.print("\nThe total trip will take approximately "+distance+" minutes\n");
+        System.out.print("\nThe total trip will take approximately "+distance+" minutes and will have "+changes+" changes.\n");
 
     }
 
