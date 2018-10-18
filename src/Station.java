@@ -1,15 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Station.java
+ * simple station class to contain a station's name and line.
  */
 public class Station
 {
-
     private String name;
     private String line;
 
-    //Overloaded constructor 
     public Station(String sname, String sline)
     {
         this.name = sname;

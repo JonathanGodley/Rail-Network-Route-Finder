@@ -1,13 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * HeapNode.java
+ * node class for use in an Indirect Minimum Heap
  */
 
-
-/**
- * @author marz
- */
 public class HeapNode
 {
     private int stationIndex;
