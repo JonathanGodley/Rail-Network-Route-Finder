@@ -8,6 +8,7 @@
 
 // assign1.java
 // TODO - insert student numbers
+// TODO - finalise readme
 
 // import XML packages
 import org.w3c.dom.*;
