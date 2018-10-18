@@ -256,8 +256,6 @@ public class Graph
 
     }
 
-    //TODO: make more efficient - stop searching when find destination
-    //TODO: to make even MORE efficient, stop searchign when find station with destination name, and change destination ID to found ID
     // TODO: If there are multiple optimal results satisfying the chosen criterion, your program must output the one that optimises the other criterion.
 
     // This function will employ diljstrika's algortihm to find the route to the destination station that takes the shortest amount of time.
@@ -280,6 +278,8 @@ public class Graph
         // shortest path tree
         boolean[] SPT = new boolean[stations.length];
 
+        LinkedList<Integer> destinationStations = new LinkedList<>();
+
         // create heap nodes for vertices
         HeapNode[] heapNodes = new HeapNode[stations.length];
         for (int i = 0; i < stations.length; i++)
@@ -287,6 +287,10 @@ public class Graph
             heapNodes[i] = new HeapNode();
             heapNodes[i].setStationIndex(i);
             heapNodes[i].setDistance(Integer.MAX_VALUE); // aka infinity
+            if (stations[i].get_name().equals(stations[destinationStation].get_name()))
+            {
+                destinationStations.add(i);
+            }
         }
 
         //decrease the distance for the first index
@@ -319,6 +323,14 @@ public class Graph
             int extractedVertex = extractedNode.getStationIndex();
             SPT[extractedVertex] = true;
 
+            // check to see if we've found our destination
+            if (destinationStations.contains(extractedVertex))
+            {
+                found = true;
+                destinationStation = extractedVertex;
+
+            }
+
             //iterate through all the adjacent vertices
             LinkedList<Edge> list = adjacencyList[extractedVertex];
             for (int i = 0; i < list.size(); i++)
@@ -346,9 +358,6 @@ public class Graph
         printDijkstraTime(destinationStation, heapNodes, parents);
 
     }
-
-    //TODO: make more efficient - stop searching when find destination
-    //TODO: to make even MORE efficient, stop searchign when find station with destination name, and change destination ID to found ID
 
     // TODO: If there are multiple optimal results satisfying the chosen criterion, your program must output the one that optimises the other criterion.
     // this algorithm finds the route from the source to destination station that contains the least number of line changes.
@@ -391,6 +400,8 @@ public class Graph
         // shortest path tree
         boolean[] SPT = new boolean[stations.length];
 
+        LinkedList<Integer> destinationStations = new LinkedList<>();
+
         // create heap nodes for vertices
         HeapNode[] heapNodes = new HeapNode[stations.length];
         for (int i = 0; i < stations.length; i++)
@@ -398,6 +409,10 @@ public class Graph
             heapNodes[i] = new HeapNode();
             heapNodes[i].setStationIndex(i);
             heapNodes[i].setDistance(Integer.MAX_VALUE); // aka infinity
+            if (stations[i].get_name().equals(stations[destinationStation].get_name()))
+            {
+                destinationStations.add(i);
+            }
         }
 
         //decrease the distance for the first index
@@ -429,6 +444,14 @@ public class Graph
             //extracted vertex
             int extractedVertex = extractedNode.getStationIndex();
             SPT[extractedVertex] = true;
+
+            // check to see if we've found our destination
+            if (destinationStations.contains(extractedVertex))
+            {
+                found = true;
+                destinationStation = extractedVertex;
+
+            }
 
             //iterate through all the adjacent vertices
             LinkedList<Edge> list = adjacencyList[extractedVertex];
