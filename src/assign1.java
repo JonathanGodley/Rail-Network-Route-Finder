@@ -2,6 +2,9 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
+ * TODO: Your program should contain a header with information about what it does and what the input and output are.
+ * TODO: Your program should also contain inline comments and be easy to follow.
+ * TODO: cover sheet
  */
 
 

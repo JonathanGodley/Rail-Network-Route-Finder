@@ -256,6 +256,9 @@ public class Graph {
     //TODO: make more efficient - stop searching when find destination
     //TODO: to make even MORE efficient, stop searchign when find station with destination name, and change destination ID to found ID
     //TODO: to make more efficient, see if you can start on the same line as destination
+    // TODO: If there are multiple optimal results satisfying the chosen criterion, your program must output the one that optimises the other criterion.
+
+    // This function will employ diljstrika's algortihm to find the route to the destination station that takes the shortest amount of time.
     public void getShortestTime(int sourceStation, int destinationStation)
     {
         // shortest path tree
@@ -325,6 +328,11 @@ public class Graph {
     //TODO: make more efficient - stop searching when find destination
     //TODO: to make even MORE efficient, stop searchign when find station with destination name, and change destination ID to found ID
     //TODO: to make more efficient, see if you can start on the same line as destination
+
+    // TODO: If there are multiple optimal results satisfying the chosen criterion, your program must output the one that optimises the other criterion.
+    // this algorithm finds the route from the source to destination station that contains the least number of line changes.
+    // Since there would be multiple optimal results, i.e. multiple routes with the same number of line changes, the program will not only
+    // pick the route with the least number of line changes, but also ensures that it optimises the other time criteria
     public void getLeastChanges(int sourceStation, int destinationStation)
     {
 
