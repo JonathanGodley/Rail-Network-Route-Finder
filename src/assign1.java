@@ -7,8 +7,6 @@
  * TODO: cover sheet
  */
 
-
-
 // assign1.java
 // TODO - insert student numbers
 // TODO - finalise readme
@@ -120,8 +118,7 @@ public class assign1
                     // TODO - on that note, these two are REQUIRED, station edges aren't necessary as long as formatting is kept.
 
                     Stations[temp] = new Station(eElement.getElementsByTagName("Name").item(0).getTextContent(),
-                                                 eElement.getElementsByTagName("Line").item(0).getTextContent(),
-                                                 temp);
+                                                 eElement.getElementsByTagName("Line").item(0).getTextContent());
 
                 }
             }

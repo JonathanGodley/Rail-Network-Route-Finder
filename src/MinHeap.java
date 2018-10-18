@@ -9,7 +9,6 @@
  *
  * @author marz
  */
-import java.util.Arrays;
 
 public class MinHeap
 {
@@ -92,14 +91,6 @@ public class MinHeap
         }
     }
 
-    @Override
-    public String toString()
-    {
-        return "MinHeap{" + "capacity=" + capacity + ", currentSize=" + currentSize + ", minHeap=" + Arrays.toString(
-                minHeap) +
-               ", indexes=" + Arrays.toString(indexes) + '}';
-    }
-
     public void swap(int a, int b)
     {
         HeapNode tmp = minHeap[a];
@@ -117,33 +108,8 @@ public class MinHeap
         return currentSize;
     }
 
-    public int getCapacity()
-    {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity)
-    {
-        this.capacity = capacity;
-    }
-
     public HeapNode[] getMinHeap()
     {
         return minHeap;
-    }
-
-    public void setMinHeap(HeapNode[] minHeap)
-    {
-        this.minHeap = minHeap;
-    }
-
-    public int[] getIndexes()
-    {
-        return indexes;
-    }
-
-    public void setIndexes(int[] indexes)
-    {
-        this.indexes = indexes;
     }
 }

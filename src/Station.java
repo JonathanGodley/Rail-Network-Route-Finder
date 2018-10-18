@@ -7,39 +7,20 @@ public class Station{
 
     private String name; 
     private String line;
-    private int index;
-
 
     //Overloaded constructor 
-    public Station(String sname, String sline, int index){
+    public Station(String sname, String sline){
         this.name = sname; 
         this.line = sline;
-        this.index = index;
     }
  
     public String get_name(){ 
         return this.name; 
     }
 
-    public int getIndex()
-    {
-        return index;
-    }
-
-    public void setIndex(int index)
-    {
-        this.index = index;
-    }
  
     public String get_line(){ 
         return this.line; 
-    }
-
-    @Override public String toString()
-    {
-
-
-        return "Station: "+name+" on line: "+line+" with index: "+index;
     }
 
 }

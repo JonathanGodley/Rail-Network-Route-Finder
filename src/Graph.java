@@ -426,16 +426,4 @@ public class Graph {
         node.setDistance(newKey);
         minHeap.bubbleUp(index);
     }
-
-    @Override public String toString()
-    {
-        // count number of connections.
-        int length = 0;
-        for(int i = 0; i < adjacencyList.length; i++)
-        {
-            length += adjacencyList[i].size();
-        }
-
-        return stations.length+" stations, with "+length+" connections";
-    }
 }

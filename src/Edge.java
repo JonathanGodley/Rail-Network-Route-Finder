@@ -7,10 +7,6 @@
 
 public class Edge //extends Station
 {
-
-   
-    
-    
     private int source;
     private int destination;
     private int duration;
@@ -37,11 +33,4 @@ public class Edge //extends Station
     public int get_duration(){
         return this.duration;
     }
-
-    @Override public String toString()
-    {
-        return source+" to "+destination+" in "+duration;
-    }
-
- 
 }
