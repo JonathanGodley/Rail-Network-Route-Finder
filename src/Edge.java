@@ -25,6 +25,9 @@ public class Edge //extends Station
     public int get_source(){
         return this.source;
     }
+
+    public void set_duration(int duration){
+        this.duration = duration;}
     
     public int get_destination(){
         return this.destination;

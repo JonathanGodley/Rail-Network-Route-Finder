@@ -18,9 +18,12 @@ import java.io.*;
 public class assign1
 {
 
+    //TODO force lower case checks everywhere
     // expected args - java assign1 "xml_file" "station 1" "station 2" criterion
     public static void main(String[] args)
     {
+
+        String mode = "";
 
         if (args.length != 4)
         {
@@ -29,7 +32,7 @@ public class assign1
         }
         else if (args[3].equals("time") || args[3].equals("changes"))
         {
-            String mode = args[3];
+            mode = args[3];
         }
         else
         {
@@ -71,7 +74,8 @@ public class assign1
 
         // test it
 
-        graph.getShortestTime(source,destination);
+        if (mode.equals("time")) {graph.getShortestTime(source,destination);}
+        else if (mode.equals("changes")) {graph.getLeastChanges(source,destination);}
 
         System.exit(0);
     }
