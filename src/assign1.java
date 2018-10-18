@@ -10,11 +10,11 @@
  * Input: java assign1 <xml_file> "station 1" "station 2" <time|changes>
  * Output: the quickest route between station 1 and station 2, according to the criteria the user selects
  *
- * TODO: Your program should also contain inline comments and be easy to follow.
  * TODO: cover sheet
  */
 
 import org.w3c.dom.*;
+
 import javax.xml.parsers.*;
 import java.io.*;
 
@@ -84,9 +84,9 @@ public class assign1
         System.exit(0);
     }
 
+    // load the stations and edges into a graph from the input file
     public static Graph loadStations(String path)
     {
-
         try
         {
 
@@ -230,6 +230,3 @@ public class assign1
 
     }
 }
-
-
-

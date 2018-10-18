@@ -10,7 +10,6 @@ public class Graph
     private Station[]          stations;
     private LinkedList<Edge>[] adjacencyList;
 
-    //Overloaded Constructor
     //TODO: work out how to fix unchecked warning
     @SuppressWarnings("unchecked")
     public Graph(Station[] stations)
@@ -24,12 +23,14 @@ public class Graph
         }
     }
 
+    // add a new edge to the graph
     public void addEdge(int source, int destination, int duration)
     {
         Edge edge = new Edge(source, destination, duration);
         adjacencyList[source].addFirst(edge);
     }
 
+    // find the index of a station
     public int findIndex(String stationName)
     {
 
@@ -46,9 +47,7 @@ public class Graph
 
     }
 
-    // A utility function to print
-    // the constructed distances
-    // array and shortest paths
+    // Print the path to the destination station
     private void printDijkstraTime(int destinationStation, HeapNode[] resultSet, int[] parents)
     {
 
@@ -140,9 +139,7 @@ public class Graph
     }
 
 
-    // A utility function to print
-    // the constructed distances
-    // array and shortest paths
+    // Print the path to the destination station
     private void printDijkstraChanges(int destinationStation, HeapNode[] resultSet, int[] parents)
     {
 
@@ -238,25 +235,18 @@ public class Graph
     }
 
 
-    // Function to print shortest path
-    // from source to currentVertex
-    // using parents array
+    // recursive function to get the path to a vertex
     private String returnPath(int currentVertex, int[] parents)
     {
-
-        // Base case : Source node has
-        // been processed
         if (currentVertex == -1)
         {
             return "";
         }
         return returnPath(parents[currentVertex], parents) + currentVertex + ",";
-
     }
 
-    // TODO: If there are multiple optimal results satisfying the chosen criterion, your program must output the one that optimises the other criterion.
-
-    // This function will employ diljstrika's algortihm to find the route to the destination station that takes the shortest amount of time.
+    // This function will employ dijkstra's algorithm to find the route to the destination station that takes the shortest amount of time.
+    // this version of the function prioritises speed, but as line changes are expensive, will generally choose the path with the least changes.
     public void getShortestTime(int sourceStation, int destinationStation)
     {
         // make algorithm more efficient by checking if we can start on the same line as the destination.
@@ -326,7 +316,6 @@ public class Graph
             {
                 found = true;
                 destinationStation = extractedVertex;
-
             }
 
             //iterate through all the adjacent vertices
@@ -352,15 +341,12 @@ public class Graph
                 }
             }
         }
-
         printDijkstraTime(destinationStation, heapNodes, parents);
-
     }
 
-    // TODO: If there are multiple optimal results satisfying the chosen criterion, your program must output the one that optimises the other criterion.
-    // this algorithm finds the route from the source to destination station that contains the least number of line changes.
-    // Since there would be multiple optimal results, i.e. multiple routes with the same number of line changes, the program will not only
-    // pick the route with the least number of line changes, but also ensures that it optimises the other time criteria
+    // This function will employ dijkstra's algorithm to find the route to the destination station that takes the least number of line changes.
+    // Thanks to the nature of the algorithm, if multiple routes exist with the same number of line changes, the program will then choose the route
+    // with the shortest travel time.
     public void getLeastChanges(int sourceStation, int destinationStation)
     {
         // Artificially inflate the weight of all line changes so they become an act of last resort
@@ -374,7 +360,6 @@ public class Graph
                 {
                     adjacencyList[i].get(x).set_duration(10000);
                 }
-
             }
         }
 
@@ -466,7 +451,7 @@ public class Graph
                     if (currentKey > newKey)
                     {
                         decreaseKey(minHeap, newKey, destination);
-                        parents[destination] = extractedVertex; // not sure if correct
+                        parents[destination] = extractedVertex;
                         heapNodes[destination].setDistance(newKey);
                     }
                 }
@@ -477,6 +462,7 @@ public class Graph
 
     }
 
+    // organise the min heap
     public void decreaseKey(MinHeap minHeap, int newKey, int vertex)
     {
 
