@@ -1,6 +1,6 @@
 # COMP2230 Assignment 1
 Jonathan Godley - c3188072
-Tamara Wold - cxxxxxxx
+Tamara Wold - c3088810
 Last Modified 18/10/2018
 
 Instructions:

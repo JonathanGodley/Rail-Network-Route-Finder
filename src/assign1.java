@@ -2,37 +2,31 @@
  * assign1.java
  * COMP2230 - Assignment 1
  * Jonathan Godley - c3188072
- * Tamara Wold - cxxxxxxx
+ * Tamara Wold - c3088810
  * Last Modified 18/10/2018
  *
  * Description:
  *
- * Usage: java assign1 <xml_file> "station 1" "station 2" <time|changes>
+ * Input: java assign1 <xml_file> "station 1" "station 2" <time|changes>
+ * Output: the quickest route between station 1 and station 2, according to the criteria the user selects
  *
- *
- * TODO: Your program should contain a header with information about what it does and what the input and output are.
  * TODO: Your program should also contain inline comments and be easy to follow.
  * TODO: cover sheet
- * TODO - insert student numbers
- * TODO - finalise readme
  */
 
-// import XML packages
-
 import org.w3c.dom.*;
-
 import javax.xml.parsers.*;
 import java.io.*;
 
 public class assign1
 {
-
     // expected args - java assign1 "xml_file" "station 1" "station 2" criterion
     public static void main(String[] args)
     {
 
         String mode = "";
 
+        // check if args[] is valid
         if (args.length != 4)
         {
             System.err.println("Usage: java assign1 <xml_file> \"station 1\" \"station 2\" <time|changes>");

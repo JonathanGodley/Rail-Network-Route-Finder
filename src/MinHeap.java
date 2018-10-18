@@ -21,17 +21,17 @@ public class MinHeap
         currentSize = 0;
     }
 
+    // insert a new node into the minimum heap
     public void insert(HeapNode newNode)
     {
-
         currentSize++;
         int idx = currentSize;
         minHeap[idx] = newNode;
         indexes[newNode.getStationIndex()] = idx;
         bubbleUp(idx);
-
     }
 
+    // sort the minimum heap, bubbling up a new node to the correct position
     public void bubbleUp(int pos)
     {
         int parentIdx  = pos / 2;
@@ -50,6 +50,7 @@ public class MinHeap
         }
     }
 
+    // return and remove the lowest value node
     public HeapNode extractMin()
     {
         HeapNode min      = minHeap[1];
@@ -63,6 +64,7 @@ public class MinHeap
         return min;
     }
 
+    // A recursive method to heapify a subtree with the root at given index
     public void sinkDown(int k)
     {
         int smallest      = k;
@@ -78,7 +80,6 @@ public class MinHeap
         }
         if (smallest != k)
         {
-
             HeapNode smallestNode = minHeap[smallest];
             HeapNode kNode        = minHeap[k];
 
