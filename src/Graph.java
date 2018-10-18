@@ -365,8 +365,6 @@ public class Graph
     // pick the route with the least number of line changes, but also ensures that it optimises the other time criteria
     public void getLeastChanges(int sourceStation, int destinationStation)
     {
-
-        //TODO: is this actually the best way to do it?
         // Artificially inflate the weight of all line changes so they become an act of last resort
         for (int i = 0; i < adjacencyList.length; i++)
         {

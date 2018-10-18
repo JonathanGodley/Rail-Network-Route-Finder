@@ -1,15 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * assign1.java
+ * COMP2230 - Assignment 1
+ * Jonathan Godley - c3188072
+ * Tamara Wold - cxxxxxxx
+ * Last Modified 18/10/2018
+ *
+ * Description:
+ *
+ * Usage: java assign1 <xml_file> "station 1" "station 2" <time|changes>
+ *
+ *
  * TODO: Your program should contain a header with information about what it does and what the input and output are.
  * TODO: Your program should also contain inline comments and be easy to follow.
  * TODO: cover sheet
+ * TODO - insert student numbers
+ * TODO - finalise readme
  */
-
-// assign1.java
-// TODO - insert student numbers
-// TODO - finalise readme
 
 // import XML packages
 
@@ -71,8 +77,6 @@ public class assign1
             System.exit(1);
         }
 
-
-        // test it
 
         if (mode.equals("time"))
         {
@@ -161,7 +165,6 @@ public class assign1
                 if (nNode.getNodeType() == Node.ELEMENT_NODE)
                 {
                     Element eElement = (Element) nNode;
-
 
 
                     NodeList tnList = eElement.getElementsByTagName("StationEdge");
