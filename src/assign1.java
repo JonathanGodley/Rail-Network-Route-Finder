@@ -21,7 +21,6 @@ import java.io.*;
 public class assign1
 {
 
-    //TODO force lower case checks everywhere
     // expected args - java assign1 "xml_file" "station 1" "station 2" criterion
     public static void main(String[] args)
     {
@@ -50,7 +49,6 @@ public class assign1
         int source      = -1;
         int destination = -1;
 
-        //TODO: make case not matter
         if ((source = graph.findIndex(args[1])) == -1)
         {
             System.err.println("Specified source does not exist");
@@ -147,10 +145,9 @@ public class assign1
 
             Graph graph = new Graph(Stations);
 
-            // TODO can i make this more efficient
             // second pass to get the edges
             // a second pass is required due to how we're assigning indexes to all the stations.
-            // we need a full list of stations with their indexes before we can start resolving edge stations into edge stationID's
+            // we need a full list of stations compiled before we can start resolving stations into station ID's
             for (int temp = 0; temp < nList.getLength(); temp++)
             {
                 Node nNode = nList.item(temp);

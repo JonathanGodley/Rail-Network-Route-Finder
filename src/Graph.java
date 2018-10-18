@@ -37,7 +37,7 @@ public class Graph
 
         for (int i = 0; i < stations.length; i++)
         {
-            if (stationName.equals(stations[i].get_name()))
+            if (stationName.toLowerCase().equals(stations[i].get_name().toLowerCase()))
             {
                 return i;
             }
@@ -71,6 +71,7 @@ public class Graph
         if (intArray.length != 1)
         {
             // check if first 2 aren't same station,
+            // shouldn't be possible - already checked for @ beginning of algorithm
             if (stations[intArray[0]].get_name().equals(stations[intArray[1]].get_name()))
             {
 
@@ -108,6 +109,7 @@ public class Graph
         {
             if (intArray[i] != -1)
             {
+
                 if (!currentLine.equals(stations[intArray[i]].get_line()))
                 {
                     currentLine = stations[intArray[i]].get_line();
@@ -163,6 +165,7 @@ public class Graph
         if (intArray.length != 1)
         {
             // check if first 2 aren't same station,
+            // shouldn't be possible - already checked for @ beginning of algorithm
             if (stations[intArray[0]].get_name().equals(stations[intArray[1]].get_name()))
             {
 
@@ -255,12 +258,25 @@ public class Graph
 
     //TODO: make more efficient - stop searching when find destination
     //TODO: to make even MORE efficient, stop searchign when find station with destination name, and change destination ID to found ID
-    //TODO: to make more efficient, see if you can start on the same line as destination
     // TODO: If there are multiple optimal results satisfying the chosen criterion, your program must output the one that optimises the other criterion.
 
     // This function will employ diljstrika's algortihm to find the route to the destination station that takes the shortest amount of time.
     public void getShortestTime(int sourceStation, int destinationStation)
     {
+        // make algorithm more efficient by checking if we can start on the same line as the destination.
+        if (!stations[sourceStation].get_line().equals(stations[destinationStation].get_line()))
+        {
+            for (Edge e : adjacencyList[sourceStation])
+            {
+                if (e.get_duration() == 15 &
+                    stations[e.get_destination()].get_name().equals(stations[sourceStation].get_name()) &&
+                    stations[e.get_destination()].get_line().equals(stations[destinationStation].get_line()))
+                {
+                    sourceStation = e.get_destination();
+                }
+            }
+        }
+
         // shortest path tree
         boolean[] SPT = new boolean[stations.length];
 
@@ -271,7 +287,6 @@ public class Graph
             heapNodes[i] = new HeapNode();
             heapNodes[i].setStationIndex(i);
             heapNodes[i].setDistance(Integer.MAX_VALUE); // aka infinity
-            //SPT[i] = false; - not sure if necessary - SPT[] should init as false
         }
 
         //decrease the distance for the first index
@@ -292,7 +307,9 @@ public class Graph
             minHeap.insert(heapNodes[i]);
         }
 
-        while (!minHeap.isEmpty())
+        boolean found = false;
+
+        while (!minHeap.isEmpty() && !found)
         {
             //extract the min
             //int nearestVertex = -1;
@@ -332,7 +349,6 @@ public class Graph
 
     //TODO: make more efficient - stop searching when find destination
     //TODO: to make even MORE efficient, stop searchign when find station with destination name, and change destination ID to found ID
-    //TODO: to make more efficient, see if you can start on the same line as destination
 
     // TODO: If there are multiple optimal results satisfying the chosen criterion, your program must output the one that optimises the other criterion.
     // this algorithm finds the route from the source to destination station that contains the least number of line changes.
@@ -354,6 +370,20 @@ public class Graph
                     adjacencyList[i].get(x).set_duration(10000);
                 }
 
+            }
+        }
+
+        // make algorithm more efficient by checking if we can start on the same line as the destination.
+        if (!stations[sourceStation].get_line().equals(stations[destinationStation].get_line()))
+        {
+            for (Edge e : adjacencyList[sourceStation])
+            {
+                if (e.get_duration() == 15 &
+                    stations[e.get_destination()].get_name().equals(stations[sourceStation].get_name()) &&
+                    stations[e.get_destination()].get_line().equals(stations[destinationStation].get_line()))
+                {
+                    sourceStation = e.get_destination();
+                }
             }
         }
 
@@ -388,7 +418,9 @@ public class Graph
             minHeap.insert(heapNodes[i]);
         }
 
-        while (!minHeap.isEmpty())
+        boolean found = false;
+
+        while (!minHeap.isEmpty() && !found)
         {
             //extract the min
             //int nearestVertex = -1;
