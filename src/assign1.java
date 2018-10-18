@@ -88,7 +88,6 @@ public class assign1
         System.exit(0);
     }
 
-    //TODO:: add file not found exception
     public static Graph loadStations(String path)
     {
 
@@ -132,7 +131,9 @@ public class assign1
 
             Graph graph = new Graph(Stations);
 
-            // second pass to get the edges //TODO make more efficient somehow?
+            // second pass to get the edges
+            // a second pass is required due to how we're assigning indexes to all the stations.
+            // we need a full list of stations with their indexes before we can start resolving edge stations into edge stationID's
             for (int temp = 0; temp < nList.getLength(); temp++)
             {
                 Node nNode = nList.item(temp);
@@ -182,6 +183,13 @@ public class assign1
 
             return graph;
 
+        }
+        catch (FileNotFoundException e)
+        {
+            System.err.println("Error! Input File not Found!");
+            System.err.println("Usage: java assign1 <xml_file> \"station 1\" \"station 2\" <time|changes>");
+            System.exit(1);
+            return null;
         }
         catch (Exception e)
         {
