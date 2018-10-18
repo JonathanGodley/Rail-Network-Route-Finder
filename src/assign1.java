@@ -102,8 +102,12 @@ public class assign1
             Document               doc     = builder.parse(inputFile);
             doc.getDocumentElement().normalize();
 
-            //TODO - Make it check that the root element is Stations, otherwise Formatting Error
-            //System.out.println("Root element: " + doc.getDocumentElement().getNodeName());
+            if (!doc.getDocumentElement().getNodeName().toLowerCase().equals("Stations".toLowerCase()))
+            {
+                System.err.println("Error! Malformed Input File!");
+                System.exit(1);
+                return null;
+            }
 
             NodeList nList = doc.getElementsByTagName("Station");
 
@@ -113,8 +117,12 @@ public class assign1
             for (int temp = 0; temp < nList.getLength(); temp++)
             {
                 Node nNode = nList.item(temp);
-                // TODO - add verification that the current element is called Station, otherwise formatting error
-                //System.out.println("\nCurrent Element :" + nNode.getNodeName());
+                if (!nNode.getNodeName().toLowerCase().equals("Station".toLowerCase()))
+                {
+                    System.err.println("Error! Malformed Input File!");
+                    System.exit(1);
+                    return null;
+                }
 
                 if (nNode.getNodeType() == Node.ELEMENT_NODE)
                 {
@@ -131,14 +139,19 @@ public class assign1
 
             Graph graph = new Graph(Stations);
 
+            // TODO can i make this more efficient
             // second pass to get the edges
             // a second pass is required due to how we're assigning indexes to all the stations.
             // we need a full list of stations with their indexes before we can start resolving edge stations into edge stationID's
             for (int temp = 0; temp < nList.getLength(); temp++)
             {
                 Node nNode = nList.item(temp);
-                // TODO - add verification that the current element is called Station, otherwise formatting error
-                //System.out.println("\nCurrent Element :" + nNode.getNodeName());
+                if (!nNode.getNodeName().toLowerCase().equals("Station".toLowerCase()))
+                {
+                    System.err.println("Error! Malformed Input File!");
+                    System.exit(1);
+                    return null;
+                }
 
                 if (nNode.getNodeType() == Node.ELEMENT_NODE)
                 {
