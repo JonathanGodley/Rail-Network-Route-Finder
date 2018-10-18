@@ -6,7 +6,6 @@
 
 
 /**
- *
  * @author marz
  */
 public class HeapNode

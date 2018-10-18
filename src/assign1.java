@@ -12,7 +12,9 @@
 // TODO - finalise readme
 
 // import XML packages
+
 import org.w3c.dom.*;
+
 import javax.xml.parsers.*;
 import java.io.*;
 
@@ -45,7 +47,7 @@ public class assign1
         Graph graph = loadStations(args[0]);
 
         // now we check that both of our stations exist in the graph, and find our source station index
-        int source = -1;
+        int source      = -1;
         int destination = -1;
 
         //TODO: make case not matter
@@ -72,11 +74,16 @@ public class assign1
         }
 
 
-
         // test it
 
-        if (mode.equals("time")) {graph.getShortestTime(source,destination);}
-        else if (mode.equals("changes")) {graph.getLeastChanges(source,destination);}
+        if (mode.equals("time"))
+        {
+            graph.getShortestTime(source, destination);
+        }
+        else if (mode.equals("changes"))
+        {
+            graph.getLeastChanges(source, destination);
+        }
 
         System.exit(0);
     }
@@ -150,9 +157,9 @@ public class assign1
                         {
                             Element tElement = (Element) tNode;
 
-                            String destination = tElement.getElementsByTagName("Name").item(0).getTextContent();
-                            int destinationStation = -1;
-                            String line = tElement.getElementsByTagName("Line").item(0).getTextContent();
+                            String destination        = tElement.getElementsByTagName("Name").item(0).getTextContent();
+                            int    destinationStation = -1;
+                            String line               = tElement.getElementsByTagName("Line").item(0).getTextContent();
 
                             for (int found = 0, i = 0; i < nList.getLength() && found < 1; i++)
                             {
@@ -166,10 +173,8 @@ public class assign1
 
                             }
 
-                            graph.addEdge(temp,
-                                          destinationStation,
-                                          Integer.parseInt(
-                                                  tElement.getElementsByTagName("Duration").item(0).getTextContent()));
+                            graph.addEdge(temp, destinationStation, Integer.parseInt(
+                                    tElement.getElementsByTagName("Duration").item(0).getTextContent()));
                         }
                     }
                 }

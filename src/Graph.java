@@ -6,7 +6,8 @@
 
 import java.util.LinkedList;
 
-public class Graph {
+public class Graph
+{
 
     private Station[]          stations;
     private LinkedList<Edge>[] adjacencyList;
@@ -19,7 +20,7 @@ public class Graph {
         this.stations = stations;
         adjacencyList = new LinkedList[stations.length];
 
-        for(int i = 0; i < stations.length; i++)
+        for (int i = 0; i < stations.length; i++)
         {
             adjacencyList[i] = new LinkedList<>();
         }
@@ -34,7 +35,7 @@ public class Graph {
     public int findIndex(String stationName)
     {
 
-        for(int i = 0; i < stations.length; i++)
+        for (int i = 0; i < stations.length; i++)
         {
             if (stationName.equals(stations[i].get_name()))
             {
@@ -42,7 +43,7 @@ public class Graph {
             }
         }
 
-       //haven't found
+        //haven't found
         return -1;
 
     }
@@ -50,20 +51,18 @@ public class Graph {
     // A utility function to print
     // the constructed distances
     // array and shortest paths
-    private void printDijkstraTime(int destinationStation,
-                                   HeapNode[] resultSet,
-                                   int[] parents)
+    private void printDijkstraTime(int destinationStation, HeapNode[] resultSet, int[] parents)
     {
 
-        int distance = resultSet[destinationStation].getDistance();
-        int changes = 0;
-        String input = (returnPath(destinationStation, parents));
+        int    distance = resultSet[destinationStation].getDistance();
+        int    changes  = 0;
+        String input    = (returnPath(destinationStation, parents));
 
 
         String splitInput[] = input.split(",");
 
         int intArray[] = new int[splitInput.length];
-        for (int i = 0; i<splitInput.length;i++)
+        for (int i = 0; i < splitInput.length; i++)
         {
             intArray[i] = Integer.parseInt(splitInput[i]);
         }
@@ -87,7 +86,8 @@ public class Graph {
             }
 
             // check if last 2 aren't same station
-            if (stations[intArray[intArray.length-1]].get_name().equals(stations[intArray[intArray.length-2]].get_name()))
+            if (stations[intArray[intArray.length - 1]].get_name()
+                                                       .equals(stations[intArray[intArray.length - 2]].get_name()))
             {
                 // remove duplicate from the array
                 int tmpArray[] = new int[splitInput.length - 1];
@@ -102,39 +102,40 @@ public class Graph {
         }
         String currentLine = stations[intArray[0]].get_line();
 
-        System.out.print("From "+stations[intArray[0]].get_name()+", take line "+currentLine+" to station ");
+        System.out.print("From " + stations[intArray[0]].get_name() + ", take line " + currentLine + " to station ");
 
-        for (int i = 1; i<intArray.length;i++)
+        for (int i = 1; i < intArray.length; i++)
         {
             if (intArray[i] != -1)
             {
                 if (!currentLine.equals(stations[intArray[i]].get_line()))
                 {
                     currentLine = stations[intArray[i]].get_line();
-                    System.out.print(stations[intArray[i]].get_name()+";");
+                    System.out.print(stations[intArray[i]].get_name() + ";");
                     if (i != intArray.length)
                     {
-                        System.out.print("\nthen change to line "+currentLine+", and continue to ");
+                        System.out.print("\nthen change to line " + currentLine + ", and continue to ");
                         changes++;
                     }
-                    else if (i == intArray.length-1)
+                    else if (i == intArray.length - 1)
                     {
-                        System.out.print(stations[intArray[i]].get_name()+";");
+                        System.out.print(stations[intArray[i]].get_name() + ";");
                     }
                 }
-                else if (i == intArray.length-1)
+                else if (i == intArray.length - 1)
                 {
-                    System.out.print(stations[intArray[i]].get_name()+";");
+                    System.out.print(stations[intArray[i]].get_name() + ";");
                 }
             }
         }
 
         if (intArray.length == 1)
         {
-            System.out.print(stations[intArray[0]].get_name()+";");
+            System.out.print(stations[intArray[0]].get_name() + ";");
         }
 
-        System.out.print("\nThe total trip will take approximately "+distance+" minutes and will have "+changes+" changes.\n");
+        System.out.print("\nThe total trip will take approximately " + distance + " minutes and will have " + changes +
+                         " changes.\n");
 
     }
 
@@ -142,20 +143,18 @@ public class Graph {
     // A utility function to print
     // the constructed distances
     // array and shortest paths
-    private void printDijkstraChanges(int destinationStation,
-                                   HeapNode[] resultSet,
-                                   int[] parents)
+    private void printDijkstraChanges(int destinationStation, HeapNode[] resultSet, int[] parents)
     {
 
-        int distance = resultSet[destinationStation].getDistance();
-        int changes = 0;
-        String input = (returnPath(destinationStation, parents));
+        int    distance = resultSet[destinationStation].getDistance();
+        int    changes  = 0;
+        String input    = (returnPath(destinationStation, parents));
 
 
         String splitInput[] = input.split(",");
 
         int intArray[] = new int[splitInput.length];
-        for (int i = 0; i<splitInput.length;i++)
+        for (int i = 0; i < splitInput.length; i++)
         {
             intArray[i] = Integer.parseInt(splitInput[i]);
         }
@@ -179,7 +178,8 @@ public class Graph {
             }
 
             // check if last 2 aren't same station
-            if (stations[intArray[intArray.length-1]].get_name().equals(stations[intArray[intArray.length-2]].get_name()))
+            if (stations[intArray[intArray.length - 1]].get_name()
+                                                       .equals(stations[intArray[intArray.length - 2]].get_name()))
             {
                 // remove duplicate from the array
                 int tmpArray[] = new int[splitInput.length - 1];
@@ -194,36 +194,36 @@ public class Graph {
         }
         String currentLine = stations[intArray[0]].get_line();
 
-        System.out.print("From "+stations[intArray[0]].get_name()+", take line "+currentLine+" to station ");
+        System.out.print("From " + stations[intArray[0]].get_name() + ", take line " + currentLine + " to station ");
 
-        for (int i = 1; i<intArray.length;i++)
+        for (int i = 1; i < intArray.length; i++)
         {
             if (intArray[i] != -1)
             {
                 if (!currentLine.equals(stations[intArray[i]].get_line()))
                 {
                     currentLine = stations[intArray[i]].get_line();
-                    System.out.print(stations[intArray[i]].get_name()+";");
+                    System.out.print(stations[intArray[i]].get_name() + ";");
                     if (i != intArray.length)
                     {
-                        System.out.print("\nthen change to line "+currentLine+", and continue to ");
+                        System.out.print("\nthen change to line " + currentLine + ", and continue to ");
                         changes++;
                     }
-                    else if (i == intArray.length-1)
+                    else if (i == intArray.length - 1)
                     {
-                        System.out.print(stations[intArray[i]].get_name()+";");
+                        System.out.print(stations[intArray[i]].get_name() + ";");
                     }
                 }
-                else if (i == intArray.length-1)
+                else if (i == intArray.length - 1)
                 {
-                    System.out.print(stations[intArray[i]].get_name()+";");
+                    System.out.print(stations[intArray[i]].get_name() + ";");
                 }
             }
         }
 
         if (intArray.length == 1)
         {
-            System.out.print(stations[intArray[0]].get_name()+";");
+            System.out.print(stations[intArray[0]].get_name() + ";");
         }
 
         // remove excess weighting
@@ -231,7 +231,8 @@ public class Graph {
         // add back in normal weighting
         distance = distance + (changes * 15);
 
-        System.out.print("\nThe total trip will have "+changes+" changes and will take approximately "+distance+" minutes.\n");
+        System.out.print("\nThe total trip will have " + changes + " changes and will take approximately " + distance +
+                         " minutes.\n");
 
     }
 
@@ -239,8 +240,7 @@ public class Graph {
     // Function to print shortest path
     // from source to currentVertex
     // using parents array
-    private String returnPath(int currentVertex,
-                                  int[] parents)
+    private String returnPath(int currentVertex, int[] parents)
     {
 
         // Base case : Source node has
@@ -287,11 +287,13 @@ public class Graph {
 
         //add all the vertices to the MinHeap
         MinHeap minHeap = new MinHeap(stations.length);
-        for (int i = 0; i < stations.length ; i++) {
+        for (int i = 0; i < stations.length; i++)
+        {
             minHeap.insert(heapNodes[i]);
         }
 
-        while(!minHeap.isEmpty()){
+        while (!minHeap.isEmpty())
+        {
             //extract the min
             //int nearestVertex = -1;
             HeapNode extractedNode = minHeap.extractMin();
@@ -302,17 +304,20 @@ public class Graph {
 
             //iterate through all the adjacent vertices
             LinkedList<Edge> list = adjacencyList[extractedVertex];
-            for (int i = 0; i <list.size() ; i++) {
-                Edge edge = list.get(i);
-                int destination = edge.get_destination();
+            for (int i = 0; i < list.size(); i++)
+            {
+                Edge edge        = list.get(i);
+                int  destination = edge.get_destination();
                 //only if  destination vertex is not present in SPT
-                if(SPT[destination]==false ) {
+                if (SPT[destination] == false)
+                {
                     ///check if distance needs an update or not
                     //means check total weight from source to vertex_V is less than
                     //the current distance value, if yes then update the distance
-                    int newKey =  heapNodes[extractedVertex].getDistance() + edge.get_duration();
+                    int newKey     = heapNodes[extractedVertex].getDistance() + edge.get_duration();
                     int currentKey = heapNodes[destination].getDistance();
-                    if(currentKey>newKey){
+                    if (currentKey > newKey)
+                    {
                         decreaseKey(minHeap, newKey, destination);
                         parents[destination] = extractedVertex; // not sure if correct
                         heapNodes[destination].setDistance(newKey);
@@ -338,12 +343,13 @@ public class Graph {
 
         //TODO: is this actually the best way to do it?
         // Artificially inflate the weight of all line changes so they become an act of last resort
-        for (int i = 0; i<adjacencyList.length; i++)
+        for (int i = 0; i < adjacencyList.length; i++)
         {
-            for (int x = 0; x < adjacencyList[i].size();x++)
+            for (int x = 0; x < adjacencyList[i].size(); x++)
             {
-                if(stations[adjacencyList[i].get(x).get_source()].get_name().equals(
-                stations[adjacencyList[i].get(x).get_destination()].get_name()))
+                if (stations[adjacencyList[i].get(x).get_source()].get_name().equals(stations[adjacencyList[i].get(x)
+                                                                                                              .get_destination()]
+                                                                                             .get_name()))
                 {
                     adjacencyList[i].get(x).set_duration(10000);
                 }
@@ -377,11 +383,13 @@ public class Graph {
 
         //add all the vertices to the MinHeap
         MinHeap minHeap = new MinHeap(stations.length);
-        for (int i = 0; i < stations.length ; i++) {
+        for (int i = 0; i < stations.length; i++)
+        {
             minHeap.insert(heapNodes[i]);
         }
 
-        while(!minHeap.isEmpty()){
+        while (!minHeap.isEmpty())
+        {
             //extract the min
             //int nearestVertex = -1;
             HeapNode extractedNode = minHeap.extractMin();
@@ -392,17 +400,20 @@ public class Graph {
 
             //iterate through all the adjacent vertices
             LinkedList<Edge> list = adjacencyList[extractedVertex];
-            for (int i = 0; i <list.size() ; i++) {
-                Edge edge = list.get(i);
-                int destination = edge.get_destination();
+            for (int i = 0; i < list.size(); i++)
+            {
+                Edge edge        = list.get(i);
+                int  destination = edge.get_destination();
                 //only if  destination vertex is not present in SPT
-                if(SPT[destination]==false ) {
+                if (SPT[destination] == false)
+                {
                     ///check if distance needs an update or not
                     //means check total weight from source to vertex_V is less than
                     //the current distance value, if yes then update the distance
-                    int newKey =  heapNodes[extractedVertex].getDistance() + edge.get_duration();
+                    int newKey     = heapNodes[extractedVertex].getDistance() + edge.get_duration();
                     int currentKey = heapNodes[destination].getDistance();
-                    if(currentKey>newKey){
+                    if (currentKey > newKey)
+                    {
                         decreaseKey(minHeap, newKey, destination);
                         parents[destination] = extractedVertex; // not sure if correct
                         heapNodes[destination].setDistance(newKey);

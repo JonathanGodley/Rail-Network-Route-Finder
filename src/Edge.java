@@ -10,27 +10,32 @@ public class Edge //extends Station
     private int source;
     private int destination;
     private int duration;
- 
+
     //Overloaded constructor 
-    public Edge(int esource, int edest, int eduration){
+    public Edge(int esource, int edest, int eduration)
+    {
         this.source = esource;
         this.destination = edest;
         this.duration = eduration;
-    } 
+    }
 
-    public int get_source(){
+    public int get_source()
+    {
         return this.source;
     }
 
-    public void set_duration(int duration){
-        this.duration = duration;}
-    
-    public int get_destination(){
+    public int get_destination()
+    {
         return this.destination;
     }
 
-    
-    public int get_duration(){
+    public int get_duration()
+    {
         return this.duration;
+    }
+
+    public void set_duration(int duration)
+    {
+        this.duration = duration;
     }
 }

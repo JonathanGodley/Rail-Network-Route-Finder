@@ -6,16 +6,15 @@
 
 
 /**
- *
  * @author marz
  */
 
 public class MinHeap
 {
-    private int capacity;
-    private int currentSize;
-    private HeapNode[] minHeap;
     int[] indexes;
+    private int        capacity;
+    private int        currentSize;
+    private HeapNode[] minHeap;
 
     public MinHeap(int capacity)
     {
@@ -39,25 +38,27 @@ public class MinHeap
 
     }
 
-    public void bubbleUp(int pos) {
-        int parentIdx = pos/2;
+    public void bubbleUp(int pos)
+    {
+        int parentIdx  = pos / 2;
         int currentIdx = pos;
-        while (currentIdx > 0 && minHeap[parentIdx].getDistance() > minHeap[currentIdx].getDistance()) {
+        while (currentIdx > 0 && minHeap[parentIdx].getDistance() > minHeap[currentIdx].getDistance())
+        {
             HeapNode currentNode = minHeap[currentIdx];
-            HeapNode parentNode = minHeap[parentIdx];
+            HeapNode parentNode  = minHeap[parentIdx];
 
             //swap the positions
             indexes[currentNode.getStationIndex()] = parentIdx;
             indexes[parentNode.getStationIndex()] = currentIdx;
-            swap(currentIdx,parentIdx);
+            swap(currentIdx, parentIdx);
             currentIdx = parentIdx;
-            parentIdx = parentIdx/2;
+            parentIdx = parentIdx / 2;
         }
     }
 
-    public HeapNode extractMin() 
+    public HeapNode extractMin()
     {
-        HeapNode min = minHeap[1];
+        HeapNode min      = minHeap[1];
         HeapNode lastNode = minHeap[currentSize];
         //            update the indexes[] and move the last node to the top
         indexes[lastNode.getStationIndex()] = 1;
@@ -68,20 +69,24 @@ public class MinHeap
         return min;
     }
 
-    public void sinkDown(int k) {
-        int smallest = k;
-        int leftChildIdx = 2 * k;
-        int rightChildIdx = 2 * k+1;
-        if (leftChildIdx < size() && minHeap[smallest].getDistance() > minHeap[leftChildIdx].getDistance()) {
+    public void sinkDown(int k)
+    {
+        int smallest      = k;
+        int leftChildIdx  = 2 * k;
+        int rightChildIdx = 2 * k + 1;
+        if (leftChildIdx < size() && minHeap[smallest].getDistance() > minHeap[leftChildIdx].getDistance())
+        {
             smallest = leftChildIdx;
         }
-        if (rightChildIdx < size() && minHeap[smallest].getDistance() > minHeap[rightChildIdx].getDistance()) {
+        if (rightChildIdx < size() && minHeap[smallest].getDistance() > minHeap[rightChildIdx].getDistance())
+        {
             smallest = rightChildIdx;
         }
-        if (smallest != k) {
+        if (smallest != k)
+        {
 
             HeapNode smallestNode = minHeap[smallest];
-            HeapNode kNode = minHeap[k];
+            HeapNode kNode        = minHeap[k];
 
             //swap the positions
             indexes[smallestNode.getStationIndex()] = k;
