@@ -55,7 +55,48 @@ public class Graph {
         }
     }
 
-public void getShortestTime(int sourceStation)
+    // A utility function to print
+    // the constructed distances
+    // array and shortest paths
+    private static void printSolution(int startVertex,
+                                      HeapNode[] resultSet,
+                                      int[] parents)
+    {
+        int nVertices = resultSet.length;
+        System.out.print("Vertex\t Distance\tPath");
+
+        for (int vertexIndex = 0;
+             vertexIndex < nVertices;
+             vertexIndex++)
+        {
+            if (vertexIndex != startVertex)
+            {
+                System.out.print("\n" + startVertex + " -> ");
+                System.out.print(vertexIndex + " \t\t ");
+                System.out.print(resultSet[vertexIndex].getDistance() + "\t\t");
+                printPath(vertexIndex, parents);
+            }
+        }
+    }
+
+    // Function to print shortest path
+    // from source to currentVertex
+    // using parents array
+    private static void printPath(int currentVertex,
+                                  int[] parents)
+    {
+
+        // Base case : Source node has
+        // been processed
+        if (currentVertex == -1)
+        {
+            return;
+        }
+        printPath(parents[currentVertex], parents);
+        System.out.print(currentVertex + " ");
+    }
+
+    public void getShortestTime(int sourceStation)
     {
         //TODO - This is currently just a find all short paths algorithm, and i'm pretty sure i've fucked it up since theres a few weird bugs happening.
         //TODO - the error is either in this file somewhere, or the MinHeap.java file. idk.
@@ -64,17 +105,25 @@ public void getShortestTime(int sourceStation)
         boolean[] SPT = new boolean[stations.length];
 
         // create heap nodes for vertices
-
         HeapNode[] heapNodes = new HeapNode[stations.length];
         for (int i = 0; i < stations.length; i++)
         {
             heapNodes[i] = new HeapNode();
             heapNodes[i].setStationIndex(i);
             heapNodes[i].setDistance(Integer.MAX_VALUE); // aka infinity
+            //SPT[i] = false; - not sure if necessary - SPT[] should init as false
         }
 
         //decrease the distance for the first index
         heapNodes[sourceStation].setDistance(0);
+
+        // Parent array to store shortest
+        // path tree
+        int[] parents = new int[stations.length];
+
+        // The starting vertex does not
+        // have a parent
+        parents[sourceStation] = -1;
 
         //add all the vertices to the MinHeap
         MinHeap minHeap = new MinHeap(stations.length);
@@ -84,6 +133,7 @@ public void getShortestTime(int sourceStation)
 
         while(!minHeap.isEmpty()){
             //extract the min
+            //int nearestVertex = -1;
             HeapNode extractedNode = minHeap.extractMin();
 
             //extracted vertex
@@ -100,10 +150,11 @@ public void getShortestTime(int sourceStation)
                     ///check if distance needs an update or not
                     //means check total weight from source to vertex_V is less than
                     //the current distance value, if yes then update the distance
-                    int newKey =  heapNodes[extractedVertex].getDistance() + edge.get_duration() ;
+                    int newKey =  heapNodes[extractedVertex].getDistance() + edge.get_duration();
                     int currentKey = heapNodes[destination].getDistance();
                     if(currentKey>newKey){
                         decreaseKey(minHeap, newKey, destination);
+                        parents[destination] = extractedVertex; // not sure if correct
                         heapNodes[destination].setDistance(newKey);
                     }
                 }
@@ -111,6 +162,7 @@ public void getShortestTime(int sourceStation)
         }
 
         printDijkstra(heapNodes, sourceStation);
+        printSolution(sourceStation, heapNodes, parents);
 
     }
 
