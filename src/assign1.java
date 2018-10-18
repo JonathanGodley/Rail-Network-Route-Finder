@@ -128,11 +128,19 @@ public class assign1
                 {
                     Element eElement = (Element) nNode;
 
-                    //TODO - Add Formatting Verification, output the rest of the elements - including loops where necessary
-                    // TODO - on that note, these two are REQUIRED, station edges aren't necessary as long as formatting is kept.
+                    if (eElement.getElementsByTagName("Name").item(0).getTextContent() == null ||
+                        eElement.getElementsByTagName("Line").item(0).getTextContent() == null)
+                    {
+                        System.err.println("Error! Malformed Input File!");
+                        System.exit(1);
+                        return null;
+                    }
 
-                    Stations[temp] = new Station(eElement.getElementsByTagName("Name").item(0).getTextContent(),
-                                                 eElement.getElementsByTagName("Line").item(0).getTextContent());
+                    {
+                        Stations[temp] = new Station(eElement.getElementsByTagName("Name").item(0).getTextContent(),
+                                                     eElement.getElementsByTagName("Line").item(0).getTextContent());
+                    }
+
 
                 }
             }
@@ -157,8 +165,7 @@ public class assign1
                 {
                     Element eElement = (Element) nNode;
 
-                    //TODO - Add Formatting Verification, output the rest of the elements - including loops where necessary
-                    // TODO - on that note, these two are REQUIRED, station edges aren't necessary as long as formatting is kept.
+
 
                     NodeList tnList = eElement.getElementsByTagName("StationEdge");
 
@@ -167,9 +174,25 @@ public class assign1
 
                         Node tNode = tnList.item(x);
 
+                        if (!tNode.getNodeName().toLowerCase().equals("StationEdge".toLowerCase()))
+                        {
+                            System.err.println("Error! Malformed Input File!");
+                            System.exit(1);
+                            return null;
+                        }
+
                         if (nNode.getNodeType() == Node.ELEMENT_NODE)
                         {
                             Element tElement = (Element) tNode;
+
+                            if (tElement.getElementsByTagName("Name").item(0).getTextContent() == null ||
+                                tElement.getElementsByTagName("Line").item(0).getTextContent() == null ||
+                                tElement.getElementsByTagName("Duration").item(0).getTextContent() == null)
+                            {
+                                System.err.println("Error! Malformed Input File!");
+                                System.exit(1);
+                                return null;
+                            }
 
                             String destination        = tElement.getElementsByTagName("Name").item(0).getTextContent();
                             int    destinationStation = -1;
