@@ -12,6 +12,8 @@ public class Graph {
     private LinkedList<Edge>[] adjacencylist;
 
     //Overloaded Constructor
+    //TODO: work out how to fix unchecked warning
+    @SuppressWarnings("unchecked")
     public Graph(Station[] stations)
     {
         this.stations = stations;
