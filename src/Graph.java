@@ -47,22 +47,12 @@ public class Graph {
 
     }
 
-    public void printDijkstra(HeapNode[] resultSet, int sourceVertex){
-       System.out.println("Dijkstra Algorithm: (Adjacency List + Min Heap)");
-        for (int i = 0; i < stations.length ; i++) {
-
-                System.out.println("Source Station: " + stations[sourceVertex].get_name() + " to station " +
-                                   stations[i].get_name() + " on line: "+stations[i].get_line()+" distance: " + resultSet[i].getDistance());
-
-        }
-    }
-
     // A utility function to print
     // the constructed distances
     // array and shortest paths
-    private void printSolution(int startVertex, int destinationStation,
-                                      HeapNode[] resultSet,
-                                      int[] parents)
+    private void printDijkstraTime(int startVertex, int destinationStation,
+                                   HeapNode[] resultSet,
+                                   int[] parents)
     {
 
         int distance = resultSet[destinationStation].getDistance();
@@ -166,6 +156,9 @@ public class Graph {
 
     }
 
+    //TODO: make more efficient - stop searching when find destination
+    //TODO: to make even MORE efficient, stop searchign when find station with destination name, and change destination ID to found ID
+    //TODO: to make more efficient, see if you can start on the same line as destination
     public void getShortestTime(int sourceStation, int destinationStation)
     {
         // shortest path tree
@@ -228,8 +221,7 @@ public class Graph {
             }
         }
 
-        //printDijkstra(heapNodes, sourceStation);
-        printSolution(sourceStation, destinationStation, heapNodes, parents);
+        printDijkstraTime(sourceStation, destinationStation, heapNodes, parents);
 
     }
 
