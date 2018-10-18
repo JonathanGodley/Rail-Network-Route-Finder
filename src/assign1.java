@@ -36,15 +36,14 @@ public class assign1
             System.exit(1);
         }
 
-        // TODO once we're not editing everything, move the file-reading into the main function and delete the container class
+        // load our data from the file
         Graph graph = loadStations(args[0]);
 
         // now we check that both of our stations exist in the graph, and find our source station index
         int source = -1;
         int destination = -1;
 
-        System.out.println(args[1]);
-
+        //TODO: make case not matter
         if ((source = graph.findIndex(args[1])) == -1)
         {
             System.err.println("Specified source does not exist");
@@ -71,7 +70,7 @@ public class assign1
 
         // test it
 
-        graph.getShortestTime(source);
+        graph.getShortestTime(source,destination);
 
         System.exit(0);
     }

@@ -58,31 +58,97 @@ public class Graph {
     // A utility function to print
     // the constructed distances
     // array and shortest paths
-    private static void printSolution(int startVertex,
+    private void printSolution(int startVertex, int destinationStation,
                                       HeapNode[] resultSet,
                                       int[] parents)
     {
-        int nVertices = resultSet.length;
-        System.out.print("Vertex\t Distance\tPath");
 
-        for (int vertexIndex = 0;
-             vertexIndex < nVertices;
-             vertexIndex++)
+        int distance = resultSet[destinationStation].getDistance();
+        String input = (returnPath(destinationStation, parents));
+
+
+        String splitInput[] = input.split(",");
+
+        int intArray[] = new int[splitInput.length];
+        for (int i = 0; i<splitInput.length;i++)
         {
-            if (vertexIndex != startVertex)
+            intArray[i] = Integer.parseInt(splitInput[i]);
+        }
+
+        // check for unwanted line changes at start and destination station
+        if (intArray.length != 1)
+        {
+            // check if first 2 aren't same station,
+            if (stations[intArray[0]].get_name().equals(stations[intArray[1]].get_name()))
             {
-                System.out.print("\n" + startVertex + " -> ");
-                System.out.print(vertexIndex + " \t\t ");
-                System.out.print(resultSet[vertexIndex].getDistance() + "\t\t");
-                printPath(vertexIndex, parents);
+
+                // remove duplicate from the array
+                int tmpArray[] = new int[splitInput.length - 1];
+                for (int i = 0; i < tmpArray.length; i++)
+                {
+                    tmpArray[i] = intArray[i + 1];
+                }
+
+                intArray = tmpArray;
+                distance = distance - 15;
+            }
+
+            // check if last 2 aren't same station
+            if (stations[intArray[intArray.length-1]].get_name().equals(stations[intArray[intArray.length-2]].get_name()))
+            {
+                // remove duplicate from the array
+                int tmpArray[] = new int[splitInput.length - 1];
+                for (int i = 0; i < tmpArray.length; i++)
+                {
+                    tmpArray[i] = intArray[i];
+                }
+
+                intArray = tmpArray;
+                distance = distance - 15;
             }
         }
+        String currentLine = stations[intArray[0]].get_line();
+
+        System.out.print("From "+stations[intArray[0]].get_name()+", take line "+currentLine+" to station ");
+
+        for (int i = 1; i<intArray.length;i++)
+        {
+            if (intArray[i] != -1)
+            {
+                if (!currentLine.equals(stations[intArray[i]].get_line()))
+                {
+                    currentLine = stations[intArray[i]].get_line();
+                    System.out.print(stations[intArray[i]].get_name()+";");
+                    if (i != intArray.length)
+                    {
+                        System.out.print("\nthen change to line "+currentLine+", and continue to ");
+                    }
+                    else if (i == intArray.length-1)
+                    {
+                        System.out.print(stations[intArray[i]].get_name()+";");
+                    }
+                }
+                else if (i == intArray.length-1)
+                {
+                    System.out.print(stations[intArray[i]].get_name()+";");
+                }
+            }
+        }
+
+        if (intArray.length == 1)
+        {
+            System.out.print(stations[intArray[0]].get_name()+";");
+        }
+
+        System.out.print("\nThe total trip will take approximately "+distance+" minutes\n");
+
     }
+
 
     // Function to print shortest path
     // from source to currentVertex
     // using parents array
-    private static void printPath(int currentVertex,
+    private String returnPath(int currentVertex,
                                   int[] parents)
     {
 
@@ -90,17 +156,14 @@ public class Graph {
         // been processed
         if (currentVertex == -1)
         {
-            return;
+            return "";
         }
-        printPath(parents[currentVertex], parents);
-        System.out.print(currentVertex + " ");
+        return returnPath(parents[currentVertex], parents) + currentVertex + ",";
+
     }
 
-    public void getShortestTime(int sourceStation)
+    public void getShortestTime(int sourceStation, int destinationStation)
     {
-        //TODO - This is currently just a find all short paths algorithm, and i'm pretty sure i've fucked it up since theres a few weird bugs happening.
-        //TODO - the error is either in this file somewhere, or the MinHeap.java file. idk.
-
         // shortest path tree
         boolean[] SPT = new boolean[stations.length];
 
@@ -161,8 +224,8 @@ public class Graph {
             }
         }
 
-        printDijkstra(heapNodes, sourceStation);
-        printSolution(sourceStation, heapNodes, parents);
+        //printDijkstra(heapNodes, sourceStation);
+        printSolution(sourceStation, destinationStation, heapNodes, parents);
 
     }
 
