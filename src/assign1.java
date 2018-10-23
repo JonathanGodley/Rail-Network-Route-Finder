@@ -20,7 +20,10 @@ import java.io.*;
 
 public class assign1
 {
-    // expected args - java assign1 "xml_file" "station 1" "station 2" criterion
+    /**
+     * Expected args - java assign1 "xml_file" "station 1" "station 2" criterion
+     * @param args 
+     */
     public static void main(String[] args)
     {
 
@@ -42,7 +45,7 @@ public class assign1
             System.exit(1);
         }
 
-        // load our data from the file
+        // load station and edge data from xml file
         Graph graph = loadStations(args[0]);
 
         // now we check that both of our stations exist in the graph, and find our source station index
@@ -54,24 +57,13 @@ public class assign1
             System.err.println("Specified source does not exist");
             System.exit(1);
         }
-        else
-        {
-
-            if ((destination = graph.findIndex(args[2])) == -1)
+        else if ((destination = graph.findIndex(args[2])) == -1)
             {
                 System.err.println("Specified destination does not exist");
                 System.exit(1);
             }
-        }
 
-        //is this if statement necessary as have already covered both cases above
-        if (source == -1 || destination == -1)
-        {
-            System.err.println("Specified destination or source does not exist");
-            System.exit(1);
-        }
-
-
+        
         if (mode.equals("time"))
         {
             graph.getShortestTime(source, destination);
@@ -84,12 +76,15 @@ public class assign1
         System.exit(0);
     }
 
-    // load the stations and edges into a graph from the input file
+    /**
+     * Extracts stations and edges from the input xml file and makes them objects
+     * @param path
+     * @return 
+     */
     public static Graph loadStations(String path)
     {
         try
         {
-
             File inputFile = new File(path);
 
             // create a document builder
@@ -113,6 +108,7 @@ public class assign1
             for (int temp = 0; temp < nList.getLength(); temp++)
             {
                 Node nNode = nList.item(temp);
+                
                 if (!nNode.getNodeName().toLowerCase().equals("Station".toLowerCase()))
                 {
                     System.err.println("Error! Malformed Input File!");
@@ -136,8 +132,6 @@ public class assign1
                         Stations[temp] = new Station(eElement.getElementsByTagName("Name").item(0).getTextContent(),
                                                      eElement.getElementsByTagName("Line").item(0).getTextContent());
                     }
-
-
                 }
             }
 
@@ -210,7 +204,6 @@ public class assign1
                     }
                 }
             }
-
             return graph;
 
         }
@@ -227,6 +220,5 @@ public class assign1
             System.exit(1);
             return null;
         }
-
     }
 }

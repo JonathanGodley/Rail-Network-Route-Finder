@@ -10,6 +10,7 @@ public class MinHeap
     private int        currentSize;
     private HeapNode[] minHeap;
 
+    //Overloaded constructor
     public MinHeap(int capacity)
     {
         this.capacity = capacity;
@@ -21,7 +22,10 @@ public class MinHeap
         currentSize = 0;
     }
 
-    // insert a new node into the minimum heap
+    /**
+     * Inserts a new node into the minHeap
+     * @param newNode 
+     */
     public void insert(HeapNode newNode)
     {
         currentSize++;
@@ -31,7 +35,10 @@ public class MinHeap
         bubbleUp(idx);
     }
 
-    // sort the minimum heap, bubbling up a new node to the correct position
+    /**
+     * Sorts the minHeap, bubbles up a new node to the correct position
+     * @param pos 
+     */
     public void bubbleUp(int pos)
     {
         int parentIdx  = pos / 2;
@@ -50,12 +57,15 @@ public class MinHeap
         }
     }
 
-    // return and remove the lowest value node
+    /**
+     * Returns and removes the lowest value node
+     * @return 
+     */
     public HeapNode extractMin()
     {
         HeapNode min      = minHeap[1];
         HeapNode lastNode = minHeap[currentSize];
-        //            update the indexes[] and move the last node to the top
+        // update the indexes[] and move the last node to the top
         indexes[lastNode.getStationIndex()] = 1;
         minHeap[1] = lastNode;
         minHeap[currentSize] = null;
@@ -64,7 +74,10 @@ public class MinHeap
         return min;
     }
 
-    // A recursive method to heapify a subtree with the root at given index
+    /**
+     * A recursive method to heapify a subtree with the root at given index
+     * @param k 
+     */
     public void sinkDown(int k)
     {
         int smallest      = k;
@@ -91,23 +104,40 @@ public class MinHeap
         }
     }
 
+    /**
+     * Swaps two nodes
+     * @param a
+     * @param b 
+     */
     public void swap(int a, int b)
     {
         HeapNode tmp = minHeap[a];
         minHeap[a] = minHeap[b];
         minHeap[b] = tmp;
     }
-
+    
+    /**
+     * Returns boolean of if minHeap is empty
+     * @return 
+     */
     public boolean isEmpty()
     {
         return currentSize == 0;
     }
 
+    /**
+     * Returns value of currentSize
+     * @return 
+     */
     public int size()
     {
         return currentSize;
     }
 
+    /**
+     * Returns the minHeap
+     * @return 
+     */
     public HeapNode[] getMinHeap()
     {
         return minHeap;

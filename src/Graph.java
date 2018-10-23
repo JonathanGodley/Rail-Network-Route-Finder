@@ -12,6 +12,7 @@ public class Graph
 
     //TODO: work out how to fix unchecked warning
     @SuppressWarnings("unchecked")
+    //Overloaded constructor
     public Graph(Station[] stations)
     {
         this.stations = stations;
@@ -23,17 +24,25 @@ public class Graph
         }
     }
 
-    // add a new edge to the graph
+    /**
+     * Adds an edge to the adjacency list
+     * @param source
+     * @param destination
+     * @param duration 
+     */
     public void addEdge(int source, int destination, int duration)
     {
         Edge edge = new Edge(source, destination, duration);
         adjacencyList[source].addFirst(edge);
     }
 
-    // find the index of a station
+    /**
+     * Returns the index of given station
+     * @param stationName
+     * @return 
+     */
     public int findIndex(String stationName)
     {
-
         for (int i = 0; i < stations.length; i++)
         {
             if (stationName.toLowerCase().equals(stations[i].get_name().toLowerCase()))
@@ -41,20 +50,21 @@ public class Graph
                 return i;
             }
         }
-
         //haven't found
         return -1;
-
     }
 
-    // Print the path to the destination station
+    /**
+     * Prints the path to the destination station for when the optimisation is 'Changes'
+     * @param destinationStation
+     * @param resultSet
+     * @param parents 
+     */
     private void printDijkstraTime(int destinationStation, HeapNode[] resultSet, int[] parents)
     {
-
         int    distance = resultSet[destinationStation].getDistance();
         int    changes  = 0;
         String input    = (returnPath(destinationStation, parents));
-
 
         String splitInput[] = input.split(",");
 
@@ -71,14 +81,12 @@ public class Graph
             // shouldn't be possible - already checked for @ beginning of algorithm
             if (stations[intArray[0]].get_name().equals(stations[intArray[1]].get_name()))
             {
-
                 // remove duplicate from the array
                 int tmpArray[] = new int[splitInput.length - 1];
                 for (int i = 0; i < tmpArray.length; i++)
                 {
                     tmpArray[i] = intArray[i + 1];
                 }
-
                 intArray = tmpArray;
                 distance = distance - 15;
             }
@@ -106,7 +114,6 @@ public class Graph
         {
             if (intArray[i] != -1)
             {
-
                 if (!currentLine.equals(stations[intArray[i]].get_line()))
                 {
                     currentLine = stations[intArray[i]].get_line();
@@ -135,18 +142,20 @@ public class Graph
 
         System.out.print("\nThe total trip will take approximately " + distance + " minutes and will have " + changes +
                          " changes.\n");
-
     }
 
-
-    // Print the path to the destination station
+    /**
+     * Prints the path to the destination station for when the optimisation is 'Time'
+     * @param destinationStation
+     * @param resultSet
+     * @param parents 
+     */
     private void printDijkstraChanges(int destinationStation, HeapNode[] resultSet, int[] parents)
     {
 
         int    distance = resultSet[destinationStation].getDistance();
         int    changes  = 0;
         String input    = (returnPath(destinationStation, parents));
-
 
         String splitInput[] = input.split(",");
 
@@ -231,11 +240,14 @@ public class Graph
 
         System.out.print("\nThe total trip will have " + changes + " changes and will take approximately " + distance +
                          " minutes.\n");
-
     }
 
-
-    // recursive function to get the path to a vertex
+    /**
+     * Recursively returns the path
+     * @param currentVertex
+     * @param parents
+     * @return 
+     */
     private String returnPath(int currentVertex, int[] parents)
     {
         if (currentVertex == -1)
@@ -245,8 +257,12 @@ public class Graph
         return returnPath(parents[currentVertex], parents) + currentVertex + ",";
     }
 
-    // This function will employ dijkstra's algorithm to find the route to the destination station that takes the shortest amount of time.
-    // this version of the function prioritises speed, but as line changes are expensive, will generally choose the path with the least changes.
+    /**
+     * Employs Dijkstra's algorithm to find the route to the destination station that takes the shortest amount of time.
+    // This version of the function prioritises speed, but as line changes are expensive, will generally choose the path with the least changes.
+     * @param sourceStation
+     * @param destinationStation 
+     */
     public void getShortestTime(int sourceStation, int destinationStation)
     {
         // make algorithm more efficient by checking if we can start on the same line as the destination.
@@ -344,9 +360,13 @@ public class Graph
         printDijkstraTime(destinationStation, heapNodes, parents);
     }
 
-    // This function will employ dijkstra's algorithm to find the route to the destination station that takes the least number of line changes.
-    // Thanks to the nature of the algorithm, if multiple routes exist with the same number of line changes, the program will then choose the route
-    // with the shortest travel time.
+    /**
+     * Employs Dijkstra's algorithm to find the route to the destination station that takes the least number of line changes.
+     * Thanks to the nature of the algorithm, if multiple routes exist with the same number of line changes, the program will then choose the route
+     * with the shortest travel time.
+     * @param sourceStation
+     * @param destinationStation 
+     */
     public void getLeastChanges(int sourceStation, int destinationStation)
     {
         // Artificially inflate the weight of all line changes so they become an act of last resort
@@ -376,7 +396,6 @@ public class Graph
                 }
             }
         }
-
 
         // shortest path tree
         boolean[] SPT = new boolean[stations.length];
@@ -457,15 +476,17 @@ public class Graph
                 }
             }
         }
-
         printDijkstraChanges(destinationStation, heapNodes, parents);
-
     }
 
-    // organise the min heap
+    /**
+     * Organises the minHeap
+     * @param minHeap
+     * @param newKey
+     * @param vertex 
+     */
     public void decreaseKey(MinHeap minHeap, int newKey, int vertex)
     {
-
         //get the index which distance's needs a decrease;
         int index = minHeap.indexes[vertex];
 
