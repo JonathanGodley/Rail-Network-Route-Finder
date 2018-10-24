@@ -380,7 +380,7 @@ public class Graph
         {
             for (Edge e : adjacencyList[sourceStation])
             {
-                if (e.get_duration() == 10000 &
+                if (e.get_duration() == 15 &
                     stations[e.get_destination()].get_name().equals(stations[sourceStation].get_name()) &&
                     stations[e.get_destination()].get_line().equals(stations[destinationStation].get_line()))
                 {
