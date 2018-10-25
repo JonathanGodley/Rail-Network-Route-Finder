@@ -183,6 +183,10 @@ public class Graph
                     intArray = tmpArray;
                     if(!line)
                         distance = distance - 10000;
+                    else
+                    {
+                        distance = distance - 15;
+                    }
                 }
 
                 // check if last 2 aren't same station
@@ -199,6 +203,10 @@ public class Graph
                     intArray = tmpArray;
                     if(!line)
                         distance = distance - 10000;
+                    else
+                    {
+                        distance = distance - 15;
+                    }
                 }
             }
             
