@@ -64,11 +64,11 @@ public class assign1
             }
 
         
-        //if (mode.equals("time"))
+        if (mode.equals("time"))
         {
             graph.getShortestTime(source, destination);
         }
-        //else if (mode.equals("changes"))
+        else if (mode.equals("changes"))
         {
             graph.getLeastChanges(source, destination);
         }
