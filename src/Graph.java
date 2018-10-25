@@ -150,12 +150,12 @@ public class Graph
      * @param resultSet
      * @param parents 
      */
-    private void printDijkstraChanges(int destinationStation, HeapNode[] resultSet, int[] parents)
+    private void printDijkstraChanges(int destinationStation, HeapNode[] resultSet, int[] parents, boolean sameLine)
     {
-
         int    distance = resultSet[destinationStation].getDistance();
         int    changes  = 0;
         String input    = (returnPath(destinationStation, parents));
+        boolean line = sameLine;
 
         String splitInput[] = input.split(",");
 
@@ -166,39 +166,42 @@ public class Graph
         }
 
         // check for unwanted line changes at start and destination station
-        if (intArray.length != 1)
-        {
-            // check if first 2 aren't same station,
-            // shouldn't be possible - already checked for @ beginning of algorithm
-            if (stations[intArray[0]].get_name().equals(stations[intArray[1]].get_name()))
+            if (intArray.length != 1)
             {
-
-                // remove duplicate from the array
-                int tmpArray[] = new int[splitInput.length - 1];
-                for (int i = 0; i < tmpArray.length; i++)
+                // check if first 2 aren't same station,
+                // shouldn't be possible - already checked for @ beginning of algorithm
+                if (stations[intArray[0]].get_name().equals(stations[intArray[1]].get_name()))
                 {
-                    tmpArray[i] = intArray[i + 1];
+
+                    // remove duplicate from the array
+                    int tmpArray[] = new int[splitInput.length - 1];
+                    for (int i = 0; i < tmpArray.length; i++)
+                    {
+                        tmpArray[i] = intArray[i + 1];
+                    }
+
+                    intArray = tmpArray;
+                    if(!line)
+                        distance = distance - 10000;
                 }
 
-                intArray = tmpArray;
-                distance = distance - 10000;
-            }
-
-            // check if last 2 aren't same station
-            if (stations[intArray[intArray.length - 1]].get_name()
-                                                       .equals(stations[intArray[intArray.length - 2]].get_name()))
-            {
-                // remove duplicate from the array
-                int tmpArray[] = new int[splitInput.length - 1];
-                for (int i = 0; i < tmpArray.length; i++)
+                // check if last 2 aren't same station
+                if (stations[intArray[intArray.length - 1]].get_name()
+                                                           .equals(stations[intArray[intArray.length - 2]].get_name()))
                 {
-                    tmpArray[i] = intArray[i];
-                }
+                    // remove duplicate from the array
+                    int tmpArray[] = new int[splitInput.length - 1];
+                    for (int i = 0; i < tmpArray.length; i++)
+                    {
+                        tmpArray[i] = intArray[i];
+                    }
 
-                intArray = tmpArray;
-                distance = distance - 10000;
+                    intArray = tmpArray;
+                    if(!line)
+                        distance = distance - 10000;
+                }
             }
-        }
+            
         String currentLine = stations[intArray[0]].get_line();
 
         System.out.print("From " + stations[intArray[0]].get_name() + ", take line " + currentLine + " to station ");
@@ -232,12 +235,14 @@ public class Graph
         {
             System.out.print(stations[intArray[0]].get_name() + ";");
         }
-
-        // remove excess weighting
-        distance = distance - (changes * 10000);
-        // add back in normal weighting
-        distance = distance + (changes * 15);
-
+        
+        if(!line){
+            // remove excess weighting
+            distance = distance - (changes * 10000);
+            // add back in normal weighting
+            distance = distance + (changes * 15);
+        }
+        
         System.out.print("\nThe total trip will have " + changes + " changes and will take approximately " + distance +
                          " minutes.\n");
     }
@@ -369,20 +374,7 @@ public class Graph
      */
     public void getLeastChanges(int sourceStation, int destinationStation)
     {
-        // Artificially inflate the weight of all line changes so they become an act of last resort
-        for (int i = 0; i < adjacencyList.length; i++)
-        {
-            for (int x = 0; x < adjacencyList[i].size(); x++)
-            {
-                if (stations[adjacencyList[i].get(x).get_source()].get_name().equals(stations[adjacencyList[i].get(x)
-                                                                                                              .get_destination()]
-                                                                                             .get_name()))
-                {
-                    adjacencyList[i].get(x).set_duration(10000);
-                }
-            }
-        }
-
+        boolean sameLine = false;
         // make algorithm more efficient by checking if we can start on the same line as the destination.
         if (!stations[sourceStation].get_line().equals(stations[destinationStation].get_line()))
         {
@@ -393,10 +385,27 @@ public class Graph
                     stations[e.get_destination()].get_line().equals(stations[destinationStation].get_line()))
                 {
                     sourceStation = e.get_destination();
+                    sameLine = true;
                 }
             }
         }
 
+        // Artificially inflate the weight of all line changes so they become an act of last resort
+        if (!sameLine){
+            for (int i = 0; i < adjacencyList.length; i++)
+            {
+                for (int x = 0; x < adjacencyList[i].size(); x++)
+                {
+                    if (stations[adjacencyList[i].get(x).get_source()].get_name().equals(stations[adjacencyList[i].get(x)
+                                                                                                                  .get_destination()]
+                                                                                                 .get_name()))
+                    {
+                        adjacencyList[i].get(x).set_duration(10000);
+                    }
+                }
+            }    
+        }
+        
         // shortest path tree
         boolean[] SPT = new boolean[stations.length];
 
@@ -444,7 +453,7 @@ public class Graph
             //extracted vertex
             int extractedVertex = extractedNode.getStationIndex();
             SPT[extractedVertex] = true;
-
+            
             // check to see if we've found our destination
             if (destinationStations.contains(extractedVertex))
             {
@@ -476,7 +485,7 @@ public class Graph
                 }
             }
         }
-        printDijkstraChanges(destinationStation, heapNodes, parents);
+        printDijkstraChanges(destinationStation, heapNodes, parents, sameLine);
     }
 
     /**
