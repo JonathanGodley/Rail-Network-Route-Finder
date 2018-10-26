@@ -10,7 +10,6 @@ public class Graph
     private Station[]          stations;
     private LinkedList<Edge>[] adjacencyList;
 
-    //TODO: work out how to fix unchecked warning
     @SuppressWarnings("unchecked")
     //Overloaded constructor
     public Graph(Station[] stations)
@@ -364,7 +363,7 @@ public class Graph
                     if (currentKey > newKey)
                     {
                         decreaseKey(minHeap, newKey, destination);
-                        parents[destination] = extractedVertex; // not sure if correct
+                        parents[destination] = extractedVertex; 
                         heapNodes[destination].setDistance(newKey);
                     }
                 }

@@ -10,7 +10,6 @@
  * Input: java assign1 <xml_file> "station 1" "station 2" <time|changes>
  * Output: the quickest route between station 1 and station 2, according to the criteria the user selects
  *
- * TODO: cover sheet
  */
 
 import org.w3c.dom.*;
