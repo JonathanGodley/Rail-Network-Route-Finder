@@ -1,5 +1,5 @@
 # Rail-Network-Route-Finder
-Finds ideal path between two rail stations using Dijkstra's algorithm
+Finds ideal path between two rail stations using Dijkstra's algorithm.
 
 Jonathan Godley - c3188072
 Tamara Wold - c3088810
