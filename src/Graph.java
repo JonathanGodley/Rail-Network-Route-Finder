@@ -311,6 +311,10 @@ public class Graph
 
         //decrease the distance for the first index
         heapNodes[sourceStation].setDistance(0);
+        
+        //parent array to store the shortest path tree
+        int[] parents = new int[stations.length];
+        parents[0] = -1;
 
         // Parent array to store shortest
         // path tree
@@ -366,8 +370,10 @@ public class Graph
                         parents[destination] = extractedVertex; 
                         heapNodes[destination].setDistance(newKey);
                     }
+                   
                 }
-            }
+            } j++;
+            
         }
         printDijkstraTime(destinationStation, heapNodes, parents);
     }
