@@ -1,23 +1,16 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * MinHeap.java
+ * Indirect Minimum Heap class, for use with Dijkstra's algorithm
  */
-
-
-/**
- *
- * @author marz
- */
-import java.util.Arrays;
 
 public class MinHeap
 {
-    private int capacity;
-    private int currentSize;
-    private HeapNode[] minHeap;
     int[] indexes;
+    private int        capacity;
+    private int        currentSize;
+    private HeapNode[] minHeap;
 
+    //Overloaded constructor
     public MinHeap(int capacity)
     {
         this.capacity = capacity;
@@ -29,38 +22,50 @@ public class MinHeap
         currentSize = 0;
     }
 
+    /**
+     * Inserts a new node into the minHeap
+     * @param newNode 
+     */
     public void insert(HeapNode newNode)
     {
-
         currentSize++;
         int idx = currentSize;
         minHeap[idx] = newNode;
         indexes[newNode.getStationIndex()] = idx;
         bubbleUp(idx);
-
     }
 
-    public void bubbleUp(int pos) {
-        int parentIdx = pos/2;
+    /**
+     * Sorts the minHeap, bubbles up a new node to the correct position
+     * @param pos 
+     */
+    public void bubbleUp(int pos)
+    {
+        int parentIdx  = pos / 2;
         int currentIdx = pos;
-        while (currentIdx > 0 && minHeap[parentIdx].getDistance() > minHeap[currentIdx].getDistance()) {
+        while (currentIdx > 0 && minHeap[parentIdx].getDistance() > minHeap[currentIdx].getDistance())
+        {
             HeapNode currentNode = minHeap[currentIdx];
-            HeapNode parentNode = minHeap[parentIdx];
+            HeapNode parentNode  = minHeap[parentIdx];
 
             //swap the positions
             indexes[currentNode.getStationIndex()] = parentIdx;
             indexes[parentNode.getStationIndex()] = currentIdx;
-            swap(currentIdx,parentIdx);
+            swap(currentIdx, parentIdx);
             currentIdx = parentIdx;
-            parentIdx = parentIdx/2;
+            parentIdx = parentIdx / 2;
         }
     }
 
-    public HeapNode extractMin() 
+    /**
+     * Returns and removes the lowest value node
+     * @return 
+     */
+    public HeapNode extractMin()
     {
-        HeapNode min = minHeap[1];
+        HeapNode min      = minHeap[1];
         HeapNode lastNode = minHeap[currentSize];
-        //            update the indexes[] and move the last node to the top
+        // update the indexes[] and move the last node to the top
         indexes[lastNode.getStationIndex()] = 1;
         minHeap[1] = lastNode;
         minHeap[currentSize] = null;
@@ -69,20 +74,27 @@ public class MinHeap
         return min;
     }
 
-    public void sinkDown(int k) {
-        int smallest = k;
-        int leftChildIdx = 2 * k;
-        int rightChildIdx = 2 * k+1;
-        if (leftChildIdx < size() && minHeap[smallest].getDistance() > minHeap[leftChildIdx].getDistance()) {
+    /**
+     * A recursive method to heapify a subtree with the root at given index
+     * @param k 
+     */
+    public void sinkDown(int k)
+    {
+        int smallest      = k;
+        int leftChildIdx  = 2 * k;
+        int rightChildIdx = 2 * k + 1;
+        if (leftChildIdx < size() && minHeap[smallest].getDistance() > minHeap[leftChildIdx].getDistance())
+        {
             smallest = leftChildIdx;
         }
-        if (rightChildIdx < size() && minHeap[smallest].getDistance() > minHeap[rightChildIdx].getDistance()) {
+        if (rightChildIdx < size() && minHeap[smallest].getDistance() > minHeap[rightChildIdx].getDistance())
+        {
             smallest = rightChildIdx;
         }
-        if (smallest != k) {
-
+        if (smallest != k)
+        {
             HeapNode smallestNode = minHeap[smallest];
-            HeapNode kNode = minHeap[k];
+            HeapNode kNode        = minHeap[k];
 
             //swap the positions
             indexes[smallestNode.getStationIndex()] = k;
@@ -92,58 +104,42 @@ public class MinHeap
         }
     }
 
-    @Override
-    public String toString()
-    {
-        return "MinHeap{" + "capacity=" + capacity + ", currentSize=" + currentSize + ", minHeap=" + Arrays.toString(
-                minHeap) +
-               ", indexes=" + Arrays.toString(indexes) + '}';
-    }
-
+    /**
+     * Swaps two nodes
+     * @param a
+     * @param b 
+     */
     public void swap(int a, int b)
     {
         HeapNode tmp = minHeap[a];
         minHeap[a] = minHeap[b];
         minHeap[b] = tmp;
     }
-
+    
+    /**
+     * Returns boolean of if minHeap is empty
+     * @return 
+     */
     public boolean isEmpty()
     {
         return currentSize == 0;
     }
 
+    /**
+     * Returns value of currentSize
+     * @return 
+     */
     public int size()
     {
         return currentSize;
     }
 
-    public int getCapacity()
-    {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity)
-    {
-        this.capacity = capacity;
-    }
-
+    /**
+     * Returns the minHeap
+     * @return 
+     */
     public HeapNode[] getMinHeap()
     {
         return minHeap;
-    }
-
-    public void setMinHeap(HeapNode[] minHeap)
-    {
-        this.minHeap = minHeap;
-    }
-
-    public int[] getIndexes()
-    {
-        return indexes;
-    }
-
-    public void setIndexes(int[] indexes)
-    {
-        this.indexes = indexes;
     }
 }

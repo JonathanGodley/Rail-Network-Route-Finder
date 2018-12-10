@@ -1,44 +1,55 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Edge.java
+ * edge class that shows us the links between two stations as well as the travel duration.
  */
 
-
-public class Edge //extends Station
+public class Edge
 {
-
-   //teset
-    
-    
     private int source;
     private int destination;
     private int duration;
- 
-    //Overloaded constructor 
-    public Edge(int esource, int edest, int eduration){
-        this.source = esource;
-        this.destination = edest;
-        this.duration = eduration;
-    } 
 
-    public int get_source(){
+    //Overloaded constructor
+    public Edge(int source, int destination, int duration)
+    {
+        this.source = source;
+        this.destination = destination;
+        this.duration = duration;
+    }
+
+    /**
+     * Returns the value of source
+     * @return 
+     */
+    public int get_source()
+    {
         return this.source;
     }
-    
-    public int get_destination(){
+
+    /**
+     * Returns the value of destination
+     * @return 
+     */
+    public int get_destination()
+    {
         return this.destination;
     }
 
-    
-    public int get_duration(){
+    /**
+     * Returns the value of duration
+     * @return 
+     */
+    public int get_duration()
+    {
         return this.duration;
     }
 
-    @Override public String toString()
+    /**
+     * Sets the value of duration
+     * @param duration 
+     */
+    public void set_duration(int duration)
     {
-        return source+" to "+destination+" in "+duration;
+        this.duration = duration;
     }
-
- 
 }

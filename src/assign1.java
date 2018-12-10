@@ -1,26 +1,34 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * assign1.java
+ * COMP2230 - Assignment 1
+ * Jonathan Godley - c3188072
+ * Tamara Wold - c3088810
+ * Last Modified 18/10/2018
+ *
+ * Description:
+ *
+ * Input: java assign1 <xml_file> "station 1" "station 2" <time|changes>
+ * Output: the quickest route between station 1 and station 2, according to the criteria the user selects
+ *
  */
 
-
-
-// assign1.java
-// TODO - insert student numbers
-
-// import XML packages
 import org.w3c.dom.*;
+
 import javax.xml.parsers.*;
 import java.io.*;
 
 public class assign1
 {
-
-    // expected args - java assign1 "xml_file" "station 1" "station 2" criterion
+    /**
+     * Expected args - java assign1 "xml_file" "station 1" "station 2" criterion
+     * @param args 
+     */
     public static void main(String[] args)
     {
 
+        String mode = "";
+
+        // check if args[] is valid
         if (args.length != 4)
         {
             System.err.println("Usage: java assign1 <xml_file> \"station 1\" \"station 2\" <time|changes>");
@@ -28,7 +36,7 @@ public class assign1
         }
         else if (args[3].equals("time") || args[3].equals("changes"))
         {
-            String mode = args[3];
+            mode = args[3];
         }
         else
         {
@@ -36,52 +44,46 @@ public class assign1
             System.exit(1);
         }
 
-        // TODO once we're not editing everything, move the file-reading into the main function and delete the container class
+        // load station and edge data from xml file
         Graph graph = loadStations(args[0]);
 
         // now we check that both of our stations exist in the graph, and find our source station index
-        int source = -1;
+        int source      = -1;
         int destination = -1;
-
-        System.out.println(args[1]);
 
         if ((source = graph.findIndex(args[1])) == -1)
         {
             System.err.println("Specified source does not exist");
             System.exit(1);
         }
-        else
-        {
-
-            if ((destination = graph.findIndex(args[2])) == -1)
+        else if ((destination = graph.findIndex(args[2])) == -1)
             {
                 System.err.println("Specified destination does not exist");
                 System.exit(1);
             }
-        }
 
-        //is this if statement necessary as have already covered both cases above
-        if (source == -1 || destination == -1)
+        
+        if (mode.equals("time"))
         {
-            System.err.println("Specified destination or source does not exist");
-            System.exit(1);
+            graph.getShortestTime(source, destination);
         }
-
-
-
-        // test it
-
-        graph.getShortestTime(source, destination);
+        else if (mode.equals("changes"))
+        {
+            graph.getLeastChanges(source, destination);
+        }
 
         System.exit(0);
     }
 
+    /**
+     * Extracts stations and edges from the input xml file and makes them objects
+     * @param path
+     * @return 
+     */
     public static Graph loadStations(String path)
     {
-
         try
         {
-
             File inputFile = new File(path);
 
             // create a document builder
@@ -90,8 +92,12 @@ public class assign1
             Document               doc     = builder.parse(inputFile);
             doc.getDocumentElement().normalize();
 
-            //TODO - Make it check that the root element is Stations, otherwise Formatting Error
-            //System.out.println("Root element: " + doc.getDocumentElement().getNodeName());
+            if (!doc.getDocumentElement().getNodeName().toLowerCase().equals("Stations".toLowerCase()))
+            {
+                System.err.println("Error! Malformed Input File!");
+                System.exit(1);
+                return null;
+            }
 
             NodeList nList = doc.getElementsByTagName("Station");
 
@@ -101,38 +107,52 @@ public class assign1
             for (int temp = 0; temp < nList.getLength(); temp++)
             {
                 Node nNode = nList.item(temp);
-                // TODO - add verification that the current element is called Station, otherwise formatting error
-                //System.out.println("\nCurrent Element :" + nNode.getNodeName());
+                
+                if (!nNode.getNodeName().toLowerCase().equals("Station".toLowerCase()))
+                {
+                    System.err.println("Error! Malformed Input File!");
+                    System.exit(1);
+                    return null;
+                }
 
                 if (nNode.getNodeType() == Node.ELEMENT_NODE)
                 {
                     Element eElement = (Element) nNode;
 
-                    //TODO - Add Formatting Verification, output the rest of the elements - including loops where necessary
-                    // TODO - on that note, these two are REQUIRED, station edges aren't necessary as long as formatting is kept.
+                    if (eElement.getElementsByTagName("Name").item(0).getTextContent() == null ||
+                        eElement.getElementsByTagName("Line").item(0).getTextContent() == null)
+                    {
+                        System.err.println("Error! Malformed Input File!");
+                        System.exit(1);
+                        return null;
+                    }
 
-                    Stations[temp] = new Station(eElement.getElementsByTagName("Name").item(0).getTextContent(),
-                                                 eElement.getElementsByTagName("Line").item(0).getTextContent(),
-                                                 temp);
-
+                    {
+                        Stations[temp] = new Station(eElement.getElementsByTagName("Name").item(0).getTextContent(),
+                                                     eElement.getElementsByTagName("Line").item(0).getTextContent());
+                    }
                 }
             }
 
             Graph graph = new Graph(Stations);
 
-            // second pass to get the edges //TODO make more efficient somehow?
+            // second pass to get the edges
+            // a second pass is required due to how we're assigning indexes to all the stations.
+            // we need a full list of stations compiled before we can start resolving stations into station ID's
             for (int temp = 0; temp < nList.getLength(); temp++)
             {
                 Node nNode = nList.item(temp);
-                // TODO - add verification that the current element is called Station, otherwise formatting error
-                //System.out.println("\nCurrent Element :" + nNode.getNodeName());
+                if (!nNode.getNodeName().toLowerCase().equals("Station".toLowerCase()))
+                {
+                    System.err.println("Error! Malformed Input File!");
+                    System.exit(1);
+                    return null;
+                }
 
                 if (nNode.getNodeType() == Node.ELEMENT_NODE)
                 {
                     Element eElement = (Element) nNode;
 
-                    //TODO - Add Formatting Verification, output the rest of the elements - including loops where necessary
-                    // TODO - on that note, these two are REQUIRED, station edges aren't necessary as long as formatting is kept.
 
                     NodeList tnList = eElement.getElementsByTagName("StationEdge");
 
@@ -141,13 +161,29 @@ public class assign1
 
                         Node tNode = tnList.item(x);
 
+                        if (!tNode.getNodeName().toLowerCase().equals("StationEdge".toLowerCase()))
+                        {
+                            System.err.println("Error! Malformed Input File!");
+                            System.exit(1);
+                            return null;
+                        }
+
                         if (nNode.getNodeType() == Node.ELEMENT_NODE)
                         {
                             Element tElement = (Element) tNode;
 
-                            String destination = tElement.getElementsByTagName("Name").item(0).getTextContent();
-                            int destinationStation = -1;
-                            String line = tElement.getElementsByTagName("Line").item(0).getTextContent();
+                            if (tElement.getElementsByTagName("Name").item(0).getTextContent() == null ||
+                                tElement.getElementsByTagName("Line").item(0).getTextContent() == null ||
+                                tElement.getElementsByTagName("Duration").item(0).getTextContent() == null)
+                            {
+                                System.err.println("Error! Malformed Input File!");
+                                System.exit(1);
+                                return null;
+                            }
+
+                            String destination        = tElement.getElementsByTagName("Name").item(0).getTextContent();
+                            int    destinationStation = -1;
+                            String line               = tElement.getElementsByTagName("Line").item(0).getTextContent();
 
                             for (int found = 0, i = 0; i < nList.getLength() && found < 1; i++)
                             {
@@ -161,17 +197,21 @@ public class assign1
 
                             }
 
-                            graph.addEdge(temp,
-                                          destinationStation,
-                                          Integer.parseInt(
-                                                  tElement.getElementsByTagName("Duration").item(0).getTextContent()));
+                            graph.addEdge(temp, destinationStation, Integer.parseInt(
+                                    tElement.getElementsByTagName("Duration").item(0).getTextContent()));
                         }
                     }
                 }
             }
-
             return graph;
 
+        }
+        catch (FileNotFoundException e)
+        {
+            System.err.println("Error! Input File not Found!");
+            System.err.println("Usage: java assign1 <xml_file> \"station 1\" \"station 2\" <time|changes>");
+            System.exit(1);
+            return null;
         }
         catch (Exception e)
         {
@@ -179,9 +219,5 @@ public class assign1
             System.exit(1);
             return null;
         }
-
     }
 }
-
-
-
