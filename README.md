@@ -1,4 +1,6 @@
-COMP2230 Assignment 1
+# Rail-Network-Route-Finder
+Finds Ideal path between two rail stations using Djikstra's algorithm
+
 Jonathan Godley - c3188072
 Tamara Wold - c3088810
 Last Modified 18/10/2018
